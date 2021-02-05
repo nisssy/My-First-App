@@ -8,6 +8,8 @@ import Missions from './src/screens/Missions';
 import TodayToDo from './src/screens/TodayToDo';
 import MilestoneEditor from './src/screens/MilestoneEditor';
 import ToDo from './src/screens/ToDo';
+import LogInScreen from './src/screens/LogInScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 export default function App() {
   return (
@@ -16,8 +18,10 @@ export default function App() {
       {/* <ToDo /> */}
       {/* <Milestone /> */}
       {/* <TodayToDo /> */}
-      <MilestoneEditor />
+      {/* <MilestoneEditor /> */}
       {/* <TodayToDoEditor /> */}
+      {/* <LogInScreen /> */}
+      {/* <SignUpScreen /> */}
     </View>
   );
 }
