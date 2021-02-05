@@ -1,33 +1,32 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, ScrollView} from 'react-native';
-
+import { View, Text, StyleSheet } from 'react-native';
 import { variables } from '../lib/variables/stylingVariables';
 
-function MonthLabel() {
+function QuoterContainerTop() {
   return (
-    <View style={styles.monthLabelContainer}>
-      <View style={styles.monthLabelInner}>
-        <Text style={styles.monthLabel}>1月</Text>
+    <View style={styles.quoterContainerTop}>
+      <View style={styles.quoterContainerTopInner}>
+        <Text style={styles.quoterText}>1Q</Text>
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  monthLabelContainer:{
-    height: 64,
+  quoterContainerTop: {
+    height: 80,
     backgroundColor: variables.subColor,
     justifyContent: 'center',
   },
-  monthLabelInner: {
+  quoterContainerTopInner: {
     width: 50,
     marginLeft: 16,
     alignItems: 'center',
   },
-  monthLabel: {
+  quoterText: {
     fontSize: 24,
     color: variables.mainColor,
   },
-});
+})
 
-export default MonthLabel;
+export default QuoterContainerTop;

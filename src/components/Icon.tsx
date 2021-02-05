@@ -5,12 +5,12 @@ import { useFonts } from '@use-expo/font';
 import icomoon from '../../assets/fonts/icomoon.ttf';
 import selection from '../../assets/fonts/selection.json';
 
-export default function Icon(props) {
+export default function Icon(props: any) {
   const [fontLoaded] = useFonts({ icomoon });
-  const { name } = props;
+  const { name, size, color } = props;
   const CustomIcon = createIconSetFromIcoMoon(selection);
   if(fontLoaded) {
-    return <CustomIcon name={name} size={50} />
+    return <CustomIcon name={name} size={size} color={color} />
   } else {
     return null;
   }

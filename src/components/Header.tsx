@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { variables } from '../lib/stylingVariables/stylingVariables';
+import { variables } from '../lib/variables/stylingVariables';
 
 function Header() {
   return (
