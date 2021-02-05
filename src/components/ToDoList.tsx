@@ -1,52 +1,15 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import AddListItem from './AddListItem';
+import ToDoListItem from './ToDoListItem';
 
 function ToDoList() {
   return (
     <View style={styles.todoList}>
-          <View style={styles.todoListItem}>
-            <View style={styles.todoListItemTextContainer}>
-              <Text style={styles.todoListItemText}>
-                ラ
-              </Text>
-            </View>
-            <TouchableOpacity style={styles.todoListItemDeleteButton}>
-              <Text>✖️</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.todoListItem}>
-            <View style={styles.todoListItemTextContainer}>
-              <Text style={styles.todoListItemText}>
-                ランサーズに登録
-              </Text>
-            </View>
-            <TouchableOpacity style={styles.todoListItemDeleteButton}>
-              <Text>✖️</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.todoListItem}>
-            <View style={styles.todoListItemTextContainer}>
-              <Text style={styles.todoListItemText}>
-                ランサーズに登録
-              </Text>
-            </View>
-            <TouchableOpacity style={styles.todoListItemDeleteButton}>
-              <Text>✖️</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity style={styles.addListItem}>
-            <View style={styles.addListItemInner}>
-              <View style={styles.addListItemAddButton}>
-                <Text>●</Text>
-              </View>
-              <View style={styles.addListItemTextContainer}>
-                <Text style={styles.addListItemText}>
-                  リストを追加する
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+      <ToDoListItem />
+      <ToDoListItem />
+      <AddListItem />
+    </View>
   )
 }
 

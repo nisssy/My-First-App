@@ -1,11 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, ScrollView} from 'react-native';
-import DateRepresentor from '../components/DateRepresentor';
+import DateRepresentor from '../components/DateComponent';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
 import MonthLabel from '../components/MonthLabel';
-import { variables } from '../lib/stylingVariables/stylingVariables';
 
 function Milestone() {
   return (
@@ -14,9 +13,9 @@ function Milestone() {
       <DateRepresentor />
 
       <ScrollView>
-        <MonthLabel />{/* 今月 */}
+        <MonthLabel />
         <MilestoneList />
-        <MonthLabel />{/* 来月 */}
+        <MonthLabel />
       </ScrollView>
       <Footer />
     </View>

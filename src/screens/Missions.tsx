@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Date from '../components/DateRepresentor';
+import DateComponent from '../components/DateComponent';
 import Footer from '../components/Footer';
 
 import Header from '../components/Header';
@@ -10,7 +10,7 @@ function Missions() {
   return (
     <View style={styles.container}>
       <Header />
-      <Date />
+      <DateComponent />
       <MissionsList />
       <Footer />
     </View>
