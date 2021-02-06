@@ -5,9 +5,9 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
-  // Alert,
+  Alert,
 } from 'react-native';
-// import firebase from 'firebase';
+import firebase from 'firebase';
 import { shape } from 'prop-types';
 import Button from '../components/Button';
 
@@ -17,14 +17,13 @@ function SignUpScreen(props) {
   const [password, setPassword] = useState('');
 
   function handlePress() {
-    navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
-    /* firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
-        navigation.reset({ index: 0, routes: [{ name: 'List' }] });
+        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
       .catch(() => {
         Alert.alert('無効なメールアドレスです');
-      }); */
+      });
   }
   return (
     <View style={styles.container}>

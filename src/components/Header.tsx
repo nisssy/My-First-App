@@ -1,21 +1,38 @@
-import { Feather } from '@expo/vector-icons';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import firebase from 'firebase';
+import { Feather } from '@expo/vector-icons';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { variables } from '../lib/variables/stylingVariables';
+import { useNavigation } from '@react-navigation/native';
 
 function Header(props: any) {
-  const {displayLogout, displayBack, title, fontSize, navigation} = props;
+  const {displayLogout, displayBack, title, fontSize} = props;
   let logoutButtonStyle;
   let backButtonStyle;
   logoutButtonStyle = displayLogout ? styles.displayFlex : styles.displayNone;
   backButtonStyle = displayBack ? styles.displayFlex : styles.displayNone;
+
+  const navigation = useNavigation();
+
+  function handlePress() {
+    firebase.auth().signOut()
+      .then(() => {
+        navigation.reset({index: 0, routes: [{name: 'LogIn'}]});
+      })
+      .catch((error) => {
+        Alert.alert('ログアウトに失敗しました')
+      })
+  }
 
   return (
     <View style={styles.header}>
       <View style={styles.inner}>
         <Text style={[styles.screenTitle, {fontSize: fontSize}]}>{title}</Text>
       </View>
-      <TouchableOpacity style={[styles.logoutContainer, logoutButtonStyle]}>
+      <TouchableOpacity
+        style={[styles.logoutContainer, logoutButtonStyle]}
+        onPress={handlePress}
+      >
         <Text style={styles.logout}>ログアウト</Text>
       </TouchableOpacity>
       <TouchableOpacity
