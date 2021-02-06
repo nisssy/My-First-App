@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import TodayToDoEditor from '../screens/TodayToDoEditor';
-import TodayToDo from '../screens/TodayToDo';
+import ToDoEditorScreen from '../screens/ToDoEditorScreen';
+import ToDoScreen from '../screens/ToDoScreen';
+import MilestoneEditorScreen from '../screens/MilestoneEditorScreen';
 
 const Stack = createStackNavigator();
 
@@ -9,15 +10,22 @@ function ToDoNavigator() {
   return (
       <Stack.Navigator>
         <Stack.Screen
-          name="TodayToDo"
-          component={TodayToDo}
+          name="ToDo"
+          component={ToDoScreen}
           options={{headerStyle: {
             height: 0,
           }}}
         />
         <Stack.Screen
-          name="TodayToDoEditor"
-          component={TodayToDoEditor}
+          name="ToDoEditor"
+          component={ToDoEditorScreen}
+          options={{headerStyle: {
+            height: 0,
+          }}}
+        />
+        <Stack.Screen
+          name="MilestoneEditor"
+          component={MilestoneEditorScreen}
           options={{headerStyle: {
             height: 0,
           }}}

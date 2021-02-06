@@ -16,13 +16,13 @@ function TodayToDo(props) {
 
       <ScrollView>
         <MonthLabel />{/* やることがここに入るのでコンポーネントの名前位を変更することを検討する  今日のやることとか？  */ }
-        <MilestoneList />{/* リストコンポーネントの中身を別にコンポーネント化する必要あり */}
-        <MilestoneList />{/* リストコンポーネントの中身を別にコンポーネント化する必要あり */}
+        <MilestoneList navigation={navigation} />{/* リストコンポーネントの中身を別にコンポーネント化する必要あり */}
+        <MilestoneList navigation={navigation} />{/* リストコンポーネントの中身を別にコンポーネント化する必要あり */}
         <View style={styles.todoTextContainer}>
           <Text style={styles.todoText}>その他やることメモ</Text>
           <TouchableOpacity
             style={styles.editButton}
-            onPress={() => navigation.navigate('TodayToDoEditor')}
+            onPress={() => navigation.navigate('ToDoEditor')}
           >
               <Feather name="edit" size={25} color="#fff" />
           </TouchableOpacity>

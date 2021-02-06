@@ -1,7 +1,6 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity, View, Text, StyleSheet, ScrollView} from 'react-native';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { variables } from '../lib/variables/stylingVariables';
 import KeyboardSafeView from '../components/KeyboardSafeView';

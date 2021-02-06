@@ -1,7 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet, ScrollView} from 'react-native';
 import DateRepresentor from '../components/DateComponent';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
 import MonthLabel from '../components/MonthLabel';

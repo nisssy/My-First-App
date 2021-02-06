@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Milestone from '../screens/Milestone';
-import MilestoneEditor from '../screens/MilestoneEditor';
+import MilestoneScreen from '../screens/MilestoneScreen';
+import MilestoneEditorScreen from '../screens/MilestoneEditorScreen';
 
 const Stack = createStackNavigator();
 
@@ -10,14 +10,14 @@ function MilestoneNavigator() {
       <Stack.Navigator>
         <Stack.Screen
           name="Milestone"
-          component={Milestone}
+          component={MilestoneScreen}
           options={{headerStyle: {
             height: 0,
           }}}
         />
         <Stack.Screen
           name="MilestoneEditor"
-          component={MilestoneEditor}
+          component={MilestoneEditorScreen}
           options={{headerStyle: {
             height: 0,
           }}}
