@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-// import firebase from 'firebase';
+import firebase from 'firebase';
 import { shape } from 'prop-types';
 import Button from '../components/Button';
 
@@ -16,26 +16,25 @@ function LogInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  /* useEffect(() => {
+  useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        navigation.reset({ index: 0, routes: [{ name: 'List' }] });
+        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       }
     });
     return () => {
       unsubscribe();
     };
-  }, []); */
+  }, []);
 
   function handlePress() {
-    navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
-    /* firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        navigation.reset({ index: 0, routes: [{ name: 'List' }] });
+        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
       .catch(() => {
         Alert.alert('メールアドレスまたはパスワードが違います。');
-      }); */
+      });
   }
   return (
     <View style={styles.container}>
@@ -84,7 +83,7 @@ function LogInScreen(props) {
 }
 
 LogInScreen.propTypes = {
-  // navigation: shape().isRequired,
+  navigation: shape().isRequired,
 };
 
 const styles = StyleSheet.create({
