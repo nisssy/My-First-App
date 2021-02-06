@@ -1,9 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Milestone from '../screens/Milestone';
-import Missions from '../screens/Missions';
-import TodayToDo from '../screens/TodayToDo';
-import ToDo from '../screens/ToDo';
+import TargetScreen from '../screens/TargetScreen';
+import TaskScreen from '../screens/TaskScreen';
 import Icon from '../components/Icon';
 import { variables } from '../lib/variables/stylingVariables';
 import MilestoneNavigator from './MilestoneNavigator';
@@ -20,8 +18,8 @@ function MainTabNavigator() {
           inactiveTintColor: '#646464',
           showLabel: 'false',
         }}
-        name="Missions"
-        component={Missions}
+        name="Target"
+        component={TargetScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="Star" color={color} size={size} />
@@ -34,8 +32,8 @@ function MainTabNavigator() {
           inactiveTintColor: '#646464',
           showLabel: 'false',
         }}
-        name="Tasks"
-        component={ToDo}
+        name="Task"
+        component={TaskScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="List" color={color} size={size} />
