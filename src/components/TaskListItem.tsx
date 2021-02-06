@@ -2,15 +2,15 @@ import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import Icon from './Icon';
 
-function ToDoListItem() {
+function TaskListItem() {
   return (
-    <View style={styles.todoListItem}>
-      <View style={styles.todoListItemTextContainer}>
-        <Text style={styles.todoListItemText}>
+    <View style={styles.taskListItem}>
+      <View style={styles.taskListItemTextContainer}>
+        <Text style={styles.taskListItemText}>
           ラ
         </Text>
       </View>
-      <TouchableOpacity style={styles.todoListItemDeleteButton}>
+      <TouchableOpacity style={styles.taskListItemDeleteButton}>
         <Icon name="Delete" size={20} color="#ccc" />
       </TouchableOpacity>
     </View>
@@ -18,9 +18,9 @@ function ToDoListItem() {
 }
 
 const styles = StyleSheet.create({
-  todoList: {
+  taskList: {
   },
-  todoListItem: {
+  taskListItem: {
     width: '100%',
     height: 80,
     flexDirection: 'row',
@@ -28,15 +28,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     backgroundColor: "#fff",
   },
-  todoListItemTextContainer: {
+  taskListItemTextContainer: {
     marginLeft: 32,
     justifyContent: 'center',
   },
-  todoListItemText: {
+  taskListItemText: {
     color: '#000',
     fontSize: 20,
   },
-  todoListItemDeleteButton: {
+  taskListItemDeleteButton: {
     position: 'absolute',
     width: 48,
     height: 48,
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToDoListItem;
+export default TaskListItem;

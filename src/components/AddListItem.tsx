@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import Icon from './Icon';
-import ToDoListItem from './ToDoListItem';
 
 function AddListItem() {
   return (

@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, ScrollView} from 'react-native';
-import MissionsListItem from './MissionsListItem';
+import TargetListItem from './TargetListItem';
 import QuoterContainerBottom from './QuoterContainerBottom';
 import QuoterContainerTop from './QuoterContainerTop';
 
-function MissionsList() {
+function TargetList() {
   return (
     <ScrollView style={styles.container}>
       <QuoterContainerTop />
-      <MissionsListItem />
-      <MissionsListItem />
-      <MissionsListItem />
+      <TargetListItem />
+      <TargetListItem />
+      <TargetListItem />
       <QuoterContainerBottom />
   </ScrollView>
   )
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default MissionsList;
+export default TargetList;

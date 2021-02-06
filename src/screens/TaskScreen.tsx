@@ -3,16 +3,16 @@ import { View, StyleSheet, ScrollView} from 'react-native';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MonthLabel from '../components/MonthLabel';
-import ToDoList from '../components/ToDoList';
+import TaskList from '../components/TaskList';
 
-function ToDo() {
+function Task() {
   return (
     <View style={styles.container}>
       <Header displayLogout={false} displayBack={false} title="やること" fontSize={28} />
       <DateRepresentor />
       <ScrollView>
         <MonthLabel />
-        <ToDoList />
+        <TaskList />
         <MonthLabel />
       </ScrollView>
     </View>
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToDo;
+export default Task;

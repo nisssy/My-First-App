@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import { variables } from '../lib/variables/stylingVariables';
 import KeyboardSafeView from '../components/KeyboardSafeView';
 
-function MilestoneEditor(props) {
+function ToDoEditor(props) {
   const { navigation } = props;
   return (
     <KeyboardSafeView style={styles.container}>
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MilestoneEditor;
+export default ToDoEditor;
