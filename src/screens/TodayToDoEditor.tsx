@@ -6,15 +6,19 @@ import Header from '../components/Header';
 import { variables } from '../lib/variables/stylingVariables';
 import KeyboardSafeView from '../components/KeyboardSafeView';
 
-function MilestoneEditor() {
+function MilestoneEditor(props) {
+  const { navigation } = props;
   return (
     <KeyboardSafeView style={styles.container}>
-        <Header />
+        <Header displayLogout={false} displayBack title="ToDo" fontSize={30} navigation={navigation}/>
         <View style={styles.textContainer}>
           <Text style={styles.text}>・ご飯を食べる</Text>
           <Text style={styles.text}>・買い物に行く</Text>
         </View>
-        <TouchableOpacity style={styles.editButton}>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => navigation.goBack()}
+        >
           <View style={styles.editButtonOuter}>
             <Feather name="check" size={25} color="#fff" />
           </View>

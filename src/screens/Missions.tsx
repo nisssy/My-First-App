@@ -1,18 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import DateComponent from '../components/DateComponent';
-import Footer from '../components/Footer';
-
 import Header from '../components/Header';
+
 import MissionsList from '../components/MissionsList';
 
 function Missions() {
   return (
     <View style={styles.container}>
-      <Header />
+      <Header displayLogout displayBack={false} title="目標" fontSize={30} />
       <DateComponent />
       <MissionsList />
-      <Footer />
     </View>
   );
 }

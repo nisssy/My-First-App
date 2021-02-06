@@ -16,20 +16,21 @@ function SignUpScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-/*   function handlePress() {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+  function handlePress() {
+    navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+    /* firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
         navigation.reset({ index: 0, routes: [{ name: 'List' }] });
       })
       .catch(() => {
         Alert.alert('無効なメールアドレスです');
-      });
-  } */
+      }); */
+  }
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
         <View>
-          <Text style={styles.title}>Sign Up</Text>
+          <Text style={styles.title}>登録画面</Text>
         </View>
         <TextInput
           value={email}
@@ -51,11 +52,11 @@ function SignUpScreen(props) {
           textContentType="password"
         />
         <Button
-          value="Submit"
-          // onPress={handlePress}
+          value="完了"
+          onPress={handlePress}
         />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Already registered?</Text>
+          <Text style={styles.footerText}>ご登録済みですか?</Text>
           <TouchableOpacity onPress={() => {
             navigation.reset({
               index: 0,
@@ -63,7 +64,7 @@ function SignUpScreen(props) {
             });
           }}
           >
-            <Text style={styles.footerLink}>Log in.</Text>
+            <Text style={styles.footerLink}>ログインはこちら.</Text>
           </TouchableOpacity>
         </View>
       </View>

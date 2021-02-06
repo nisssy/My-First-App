@@ -1,14 +1,30 @@
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { variables } from '../lib/variables/stylingVariables';
 
-function Header() {
+function Header(props: any) {
+  const {displayLogout, displayBack, title, fontSize, navigation} = props;
+  let logoutButtonStyle;
+  let backButtonStyle;
+  logoutButtonStyle = displayLogout ? styles.displayFlex : styles.displayNone;
+  backButtonStyle = displayBack ? styles.displayFlex : styles.displayNone;
+
   return (
     <View style={styles.header}>
       <View style={styles.inner}>
-        <Text style={styles.screenTitle}>目標</Text>
-        <Text style={styles.logout}>ログアウト</Text>
+        <Text style={[styles.screenTitle, {fontSize: fontSize}]}>{title}</Text>
       </View>
+      <TouchableOpacity style={[styles.logoutContainer, logoutButtonStyle]}>
+        <Text style={styles.logout}>ログアウト</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.backContainer, backButtonStyle]}
+        onPress={() => navigation.goBack()}
+      >
+        <Feather name="arrow-left" color="#fff" size={25} />
+        <Text style={styles.backText}>back</Text>
+      </TouchableOpacity>
   </View>
   )
 }
@@ -31,11 +47,31 @@ const styles = StyleSheet.create({
   },
   logout: {
     color: '#fff',
-    position: 'absolute',
-    right: 48,
     fontSize: 14,
     lineHeight: 14,
-    bottom: 14,
+  },
+  logoutContainer: {
+    position: 'absolute',
+    right: 26,
+    bottom: 0,
+    padding: 14,
+  },
+  backContainer: {
+    position: 'absolute',
+    left: 24,
+    bottom: 0,
+    padding: 8,
+    flexDirection: 'row',
+  },
+  backText: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  displayNone: {
+    display: 'none',
+  },
+  displayFlex: {
+    display: 'flex',
   },
 });
 

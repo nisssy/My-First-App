@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 
   quoterContainerBottom: {
-    height: 80,
+    height: 64,
     marginBottom: 32,
     backgroundColor: variables.subColor,
     flexDirection: 'row',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   quoterInner: {
     width: 50,
     marginLeft: 16,
-    marginTop: 16,
+    marginTop: 12,
     alignItems: 'center',
   },
   quoterAchievementRate: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   achievementScore: {
     color: variables.mainColor,
     fontSize: 24,
-    marginTop: 8,
+    marginTop: 4,
   },
   quoterTextContainer: {
     marginLeft: 24,
@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     right: 12,
-    top: 28,
+    top: 7,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

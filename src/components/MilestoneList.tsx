@@ -2,10 +2,11 @@ import React from 'react';
 import { View } from 'react-native';
 import MilestoneListItem from './MilestoneListItem';
 
-function MilestoneList() {
+function MilestoneList(props) {
+  const {navigation} = props;
   return (
     <View>
-      <MilestoneListItem />
+      <MilestoneListItem navigation={navigation} />
     </View>
   )
 }

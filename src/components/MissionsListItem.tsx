@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
+    backgroundColor: '#fff',
   },
   missionListItemLeft: {
     height: '100%',

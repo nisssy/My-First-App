@@ -1,9 +1,11 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import Icon from './Icon';
 
-function MilestoneListItem() {
+function MilestoneListItem(props) {
+  const { navigation } = props;
   const [checked, setChecked] = useState(false);
   function handlePress() {
     if (checked) {
@@ -32,7 +34,10 @@ function MilestoneListItem() {
           <Text style={styles.milestoneListListItemLeft}>残り：3日</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.timerButton}>
+      <TouchableOpacity
+        style={styles.timerButton}
+        onPress={() => navigation.navigate('MilestoneEditor')}
+      >
         <Icon name="Timer" size={20} color="#ccc"  />
       </TouchableOpacity>
     </View>
@@ -42,10 +47,11 @@ function MilestoneListItem() {
 const styles = StyleSheet.create({
   milestoneListItem: {
     width: '100%',
-    height: 120,
+    height: 104,
     flexDirection: 'row',
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
+    backgroundColor: '#fff',
   },
   milestoneListItemTextContainer: {
     justifyContent: 'center',
@@ -72,9 +78,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 50,
     height: 50,
-    right: 12,
-    top: 60-10,
+    right: 24,
+    top: 27,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   milestoneListItemDeleteButton: {
     position: 'absolute',
