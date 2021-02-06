@@ -3,14 +3,14 @@ import { View, StyleSheet } from 'react-native';
 import DateComponent from '../components/DateComponent';
 import Header from '../components/Header';
 
-import MissionsList from '../components/MissionsList';
+import TargetList from '../components/TargetList';
 
-function Missions() {
+function Target() {
   return (
     <View style={styles.container}>
       <Header displayLogout displayBack={false} title="目標" fontSize={30} />
       <DateComponent />
-      <MissionsList />
+      <TargetList />
     </View>
   );
 }
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Missions;
+export default Target;

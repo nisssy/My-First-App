@@ -7,7 +7,7 @@ import MilestoneList from '../components/MilestoneList';
 import MonthLabel from '../components/MonthLabel';
 import { variables } from '../lib/variables/stylingVariables';
 
-function TodayToDo(props) {
+function ToDo(props) {
   const { navigation } = props;
   return (
     <View style={styles.container}>
@@ -27,10 +27,10 @@ function TodayToDo(props) {
               <Feather name="edit" size={25} color="#fff" />
           </TouchableOpacity>
         </View>
-        <View style={styles.todayToDoList}>
-          <Text style={styles.todayToDoListItem}>・ご飯を食べる</Text>
-          <Text style={styles.todayToDoListItem}>・洗濯をする</Text>
-          <Text style={styles.todayToDoListItem}>・日本酒を買う</Text>
+        <View style={styles.ToDoList}>
+          <Text style={styles.ToDoListItem}>・ご飯を食べる</Text>
+          <Text style={styles.ToDoListItem}>・洗濯をする</Text>
+          <Text style={styles.ToDoListItem}>・日本酒を買う</Text>
         </View>
       </ScrollView>
     </View>
@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     color: variables.mainColor,
   },
-  todayToDoList: {
+  ToDoList: {
     flex: 1,
     marginLeft: 48,
   },
-  todayToDoListItem: {
+  ToDoListItem: {
     fontSize: 16,
     lineHeight: 32,
   },
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TodayToDo;
+export default ToDo;

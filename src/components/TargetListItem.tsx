@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
 
-function MissionsListItem() {
+function TargetListItem() {
   return (
       <View style={styles.missionListItem}>
         <View style={styles.missionListItemLeft}>
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default MissionsListItem;
+export default TargetListItem;

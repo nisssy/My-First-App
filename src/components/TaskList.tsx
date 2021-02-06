@@ -1,37 +1,37 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import AddListItem from './AddListItem';
-import ToDoListItem from './ToDoListItem';
+import TaskListItem from './TaskListItem';
 
-function ToDoList() {
+function TaskList() {
   return (
-    <View style={styles.todoList}>
-      <ToDoListItem />
-      <ToDoListItem />
+    <View style={styles.taskList}>
+      <TaskListItem />
+      <TaskListItem />
       <AddListItem />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  todoList: {
+  taskList: {
   },
-  todoListItem: {
+  taskListItem: {
     width: '100%',
     height: 80,
     flexDirection: 'row',
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
   },
-  todoListItemTextContainer: {
+  taskListItemTextContainer: {
     marginLeft: 32,
     justifyContent: 'center',
   },
-  todoListItemText: {
+  taskListItemText: {
     color: '#000',
     fontSize: 20,
   },
-  todoListItemDeleteButton: {
+  taskListItemDeleteButton: {
     position: 'absolute',
     right: 24,
     top: '50%',
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ToDoList;
+export default TaskList;
