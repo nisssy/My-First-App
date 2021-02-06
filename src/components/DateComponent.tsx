@@ -16,6 +16,7 @@ function DateRepresentor() {
 
 const styles = StyleSheet.create({
   yearContainer: {
+    backgroundColor: '#fff',
     height: 72,
     justifyContent: 'center',
   },

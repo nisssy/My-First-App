@@ -6,7 +6,7 @@ import QuoterContainerTop from './QuoterContainerTop';
 
 function MissionsList() {
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <QuoterContainerTop />
       <MissionsListItem />
       <MissionsListItem />
@@ -17,6 +17,9 @@ function MissionsList() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+  }
 })
 
 export default MissionsList;

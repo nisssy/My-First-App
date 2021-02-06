@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
+    backgroundColor: "#fff",
   },
   todoListItemTextContainer: {
     marginLeft: 32,

@@ -4,10 +4,11 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { variables } from '../lib/variables/stylingVariables';
 
-function MilestoneEditor() {
+function MilestoneEditor(props) {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
-      <Header />
+      <Header displayLogout={false} displayBack title="マイルストーン" fontSize={26} navigation={navigation} />
 
       <View style={styles.itemsContainer}>
         <Text style={styles.text}>開始予定日：2021/1/15</Text>
@@ -15,7 +16,10 @@ function MilestoneEditor() {
         <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonLabel}>設定完了</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonCancel}>
+        <TouchableOpacity
+          style={styles.buttonCancel}
+          onPress={() => navigation.goBack()}
+        >
             <Text style={styles.buttonLabelCancel}>キャンセル</Text>
         </TouchableOpacity>
       </View>

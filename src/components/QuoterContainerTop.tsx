@@ -14,7 +14,7 @@ function QuoterContainerTop() {
 
 const styles = StyleSheet.create({
   quoterContainerTop: {
-    height: 80,
+    height: 64,
     backgroundColor: variables.subColor,
     justifyContent: 'center',
   },

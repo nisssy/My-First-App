@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 // import firebase from 'firebase';
 import { shape } from 'prop-types';
-// import Button from '../components/Button';
+import Button from '../components/Button';
 
 function LogInScreen(props) {
   const { navigation } = props;
@@ -27,20 +27,21 @@ function LogInScreen(props) {
     };
   }, []); */
 
-  /* function handlePress() {
-    firebase.auth().signInWithEmailAndPassword(email, password)
+  function handlePress() {
+    navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+    /* firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         navigation.reset({ index: 0, routes: [{ name: 'List' }] });
       })
       .catch(() => {
         Alert.alert('メールアドレスまたはパスワードが違います。');
-      });
-  } */
+      }); */
+  }
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
         <View>
-          <Text style={styles.title}>Log In</Text>
+          <Text style={styles.title}>ログイン画面</Text>
         </View>
         <TextInput
           value={email}
@@ -61,12 +62,12 @@ function LogInScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        {/* <Button
-          value="Submit"
-          // onPress={handlePress}
-        /> */}
+        <Button
+          value="ログイン"
+          onPress={handlePress}
+        />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Not registered?</Text>
+          <Text style={styles.footerText}>ご登録済みですか？</Text>
           <TouchableOpacity onPress={() => {
             navigation.reset({
               index: 0,
@@ -74,7 +75,7 @@ function LogInScreen(props) {
             });
           }}
           >
-            <Text style={styles.footerLink}>Sign up here!</Text>
+            <Text style={styles.footerLink}>サインアップはこちら！</Text>
           </TouchableOpacity>
         </View>
       </View>
