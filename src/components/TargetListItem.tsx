@@ -1,23 +1,62 @@
-import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, View, Text, StyleSheet, TextInput, Alert } from 'react-native';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
+import firebase from 'firebase';
 
-function TargetListItem() {
+function TargetListItem(props) {
+  const {monthOrigin, dataSet} = props;
+  const {id, target, achievement} =  dataSet.find(item => item.month === monthOrigin);
+  const [text, setText] = useState(target);
+  const [checked, setChecked] = useState(achievement);
+  const { currentUser } = firebase.auth();
+  const db = firebase.firestore();
+  const ref = db.collection(`users/${currentUser?.uid}/target`).doc(id);
+
+  function handlePress() {
+    ref.update({
+      month: monthOrigin,
+      target: text,
+    })
+      .then(()=>{
+        return;
+      }).catch((error) => {
+        console.log(error)
+      })
+
+  }
+
   return (
       <View style={styles.missionListItem}>
         <View style={styles.missionListItemLeft}>
-          <Text style={styles.missionListItemMonth}>1月</Text>
+          <Text style={styles.missionListItemMonth}>{monthOrigin}</Text>
           <View style={styles.checkboxContainer}>
-            <Checkbox size={30} />
+            <Checkbox size={30} docId={id} checked={checked} setChecked={setChecked} achievement={achievement} />
           </View>
         </View>
         <View style={styles.listItemTextContainer}>
-          <Text style={styles.listItemText}>
-            月収10万円の達成
-          </Text>
+          <TextInput
+            value={text}
+            style={styles.targetListItemInput}
+            onChangeText={(textInput) => setText(textInput)}
+            autoCapitalize="none"
+            keyboardType="default"
+            placeholder="目標を入力！"
+            onEndEditing={handlePress}
+            multiline
+          />
         </View>
-        <TouchableOpacity style={styles.listItemDeleteButton}>
+        <TouchableOpacity
+          style={styles.listItemDeleteButton}
+          onPress={() => {
+            ref.update({
+              target: '',
+              achievement: false,
+            })
+            setText('')
+            setChecked(false)
+          }}
+        >
           <Icon name="Delete" size={24} color="#ccc" />
         </TouchableOpacity>
       </View>
@@ -49,11 +88,6 @@ const styles = StyleSheet.create({
     marginLeft: 24,
     justifyContent: 'center',
   },
-  listItemText: {
-    color: '#000',
-    fontSize: 24,
-
-  },
   listItemDeleteButton: {
     position: 'absolute',
     width: 50,
@@ -67,6 +101,14 @@ const styles = StyleSheet.create({
     top: 16,
     width: 50,
     alignItems: 'center',
+  },
+  targetListItemInput: {
+    position: 'relative',
+    top: -4,
+    width: 220,
+    color: '#000',
+    fontSize: 24,
+    lineHeight: 32,
   },
 })
 

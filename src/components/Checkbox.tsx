@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckBox } from 'react-native-elements';
+import firebase from 'firebase';
 
 function Checkbox(props: any) {
-  const {size} = props;
-  const [checked, setChecked] = useState(false);
+  const {docId, size, achievement, checked, setChecked} = props;
+  useEffect(() => {
+    setChecked(checked);
+  }, [])
+
+  const { currentUser } = firebase.auth();
+  const db = firebase.firestore();
+  const ref = db.collection(`users/${currentUser?.uid}/target`).doc(docId);
   function handlePress() {
     if (checked) {
       setChecked(false);
+      ref.update({
+        achievement: false,
+      })
+        .then(()=>{
+          return;
+        }).catch((error) => {
+          console.log(error)
+        })
     } else {
       setChecked(true);
-      // Alert.alert('達成')
+      ref.update({
+        achievement: true,
+      })
+        .then(()=>{
+          return;
+        }).catch((error) => {
+          console.log(error)
+        })
     }
   }
   return (
