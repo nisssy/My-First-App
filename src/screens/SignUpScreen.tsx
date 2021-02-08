@@ -18,7 +18,7 @@ function SignUpScreen(props) {
 
   function handlePress() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then(async() => {
         navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
       .catch(() => {
