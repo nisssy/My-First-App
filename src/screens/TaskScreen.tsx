@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView} from 'react-native';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MonthLabel from '../components/MonthLabel';
 import TaskList from '../components/TaskList';
+import firebase from 'firebase';
 
 function Task() {
+  const [list, setList] = useState()
+  useEffect(() => {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    const ref = db.collection(`users/${currentUser?.uid}/task`);
+    let unsubscribe;
+    const array: any = [];
+    unsubscribe = ref.onSnapshot((snapshot) => {
+      snapshot.forEach((doc) => {
+        array.push({
+          id: doc.id,
+          title: doc.data().title,
+          createdAt: doc.data().createdAt,
+        })
+      })
+      if(array !== undefined)setList(array)
+    })
+    return unsubscribe;
+  }, [])
+
   return (
     <View style={styles.container}>
       <Header displayLogout={false} displayBack={false} title="やること" fontSize={28} />
       <DateRepresentor />
       <ScrollView>
         <MonthLabel />
-        <TaskList />
+        <TaskList list={list} />
         <MonthLabel />
       </ScrollView>
     </View>

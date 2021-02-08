@@ -6,8 +6,9 @@ import QuoterContainerTop from './QuoterContainerTop';
 import firebase from 'firebase';
 import Button from './Button';
 
-function TargetList() {
+function TargetList  () {
   const [dataSet, setDataSet] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const { currentUser } = firebase.auth();
@@ -25,15 +26,22 @@ function TargetList() {
             achievement: doc.data().achievement,
           });
         });
-        if(array[0] !== undefined) { setDataSet(array) }
+        if (array.length > 2 )setDataSet(array)
       }, () => {
         Alert.alert('データの読み込みに失敗');
       })
     }
     return unsubscribe;
-  } ,[])
+  }, [])
+  console.log(dataSet.length);
+  useEffect(() => {
+    if(dataSet.length > 2 ) {
+      setIsLoading(false)
+    }
+  }, [dataSet])
+  console.log(isLoading)
 
-  if(JSON.stringify(dataSet) === '[]') {
+  if( isLoading ) {
     return (
       <View>
         <Text>最初のインプットをしよう</Text>
@@ -41,33 +49,37 @@ function TargetList() {
           value={'スタート'}
           onPress={() => {
             const { currentUser } = firebase.auth();
-            const db = firebase.firestore();
-            const ref = db.collection(`users/${currentUser?.uid}/target`);
-            ref.add({
-              month: '1月',
-              target: '',
-              achievement: false,
-            })
-            ref.add({
-              month: '2月',
-              target: '',
-              achievement: false,
-            })
-            ref.add({
-              month: '3月',
-              target: '',
-              achievement: false,
-            })
-              .then(()=>{
-                return;
-              }).catch((error) => {
-                console.log(error)
-              })
+        const db = firebase.firestore();
+        const ref = db.collection(`users/${currentUser?.uid}/target`);
+        ref.add({
+          month: '1月',
+          target: '',
+          achievement: false,
+        })
+        ref.add({
+          month: '2月',
+          target: '',
+          achievement: false,
+        })
+        ref.add({
+          month: '3月',
+          target: '',
+          achievement: false,
+        })
+          .then(() => {
+            return;
+          }
+          )
+          .catch((error) => {
+
+          }).finally(
+
+          )
           }}
         />
       </View>
     )
-  } else {
+  }
     return (
       <ScrollView style={styles.container}>
         <QuoterContainerTop />
@@ -77,7 +89,6 @@ function TargetList() {
         <QuoterContainerBottom />
     </ScrollView>
     )
-  }
 }
 
 const styles = StyleSheet.create({

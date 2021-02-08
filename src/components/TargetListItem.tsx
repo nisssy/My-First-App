@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, TextInput, Alert } from 'react-native';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
@@ -6,9 +6,15 @@ import firebase from 'firebase';
 
 function TargetListItem(props) {
   const {monthOrigin, dataSet} = props;
-  const {id, target, achievement} =  dataSet.find(item => item.month === monthOrigin);
-  const [text, setText] = useState(target);
-  const [checked, setChecked] = useState(achievement);
+  const [list, setList] = useState(dataSet)
+  console.log(list)
+
+  useEffect(() => {
+    setList(dataSet)
+  }, dataSet)
+  const {id, target, achievement } =  list.find(item => item.month === monthOrigin);
+  const [text, setText] = useState(/* target */);
+  const [checked, setChecked] = useState(/* achievement */);
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/target`).doc(id);
@@ -31,7 +37,7 @@ function TargetListItem(props) {
         <View style={styles.missionListItemLeft}>
           <Text style={styles.missionListItemMonth}>{monthOrigin}</Text>
           <View style={styles.checkboxContainer}>
-            <Checkbox size={30} docId={id} checked={checked} setChecked={setChecked} achievement={achievement} />
+            <Checkbox size={30} /* docId={id} */ checked={checked} setChecked={setChecked} /* achievement={achievement} */ />
           </View>
         </View>
         <View style={styles.listItemTextContainer}>

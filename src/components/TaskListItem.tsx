@@ -1,38 +1,64 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, StyleSheet, TextInput } from 'react-native';
+import { TouchableOpacity, View, StyleSheet, TextInput, Alert } from 'react-native';
 import Icon from './Icon';
+import firebase from 'firebase';
 
-function TaskListItem() {
-  const [text, setText] = useState('')
-  // function handlePress() {}
+function TaskListItem(props) {
+  const { data, dataSet, setDataSet, index } = props;
+  const [text, setText] = useState(data.title)
+  let keyForDelete;
+  index == 0 ? keyForDelete = true : keyForDelete =false;
+  console.log(keyForDelete)
+  const { currentUser } = firebase.auth();
+  const db = firebase.firestore();
+  const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
+
+  function handlePress() {
+      ref.update({
+        title: text,
+      })
+        .then(() => {
+          return;
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+  }
+  function handlePressDelete(keyForDelete:boolean) {
+    if(keyForDelete) {
+      Alert.alert('一番目は削除できません')
+    } else {
+    ref.delete()
+    .then(()=>{
+      const newData = dataSet.filter(item => {
+        return item.id !== data.id
+      })
+      setDataSet(newData)
+    })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+  }
 
   return (
-    <View style={styles.taskListItem}>
+    <View style={styles.taskListItem} key={data.id}>
       <View style={styles.taskListItemTextContainer}>
-      {/* <TextField
-        fullWidth={true}
-        onChange={(e)=>{setText(e.target.value)}}
-        onKeyDown={(e)=>{
-            const text = e.target.value;
-            if(!text)return;
-            if (isComposed)return;
-            if(e.key === 'Enter' ){
-                setText(text);
-            }
-        }}
-
-        value={text}
-      /> */}
       <TextInput
           value={text}
           style={styles.taskListItemInput}
           onChangeText={(textInput) => setText(textInput)}
+          onEndEditing={handlePress}
           autoCapitalize="none"
           keyboardType="default"
           placeholder="目標を入力！"
+          multiline
         />
       </View>
-      <TouchableOpacity style={styles.taskListItemDeleteButton}>
+      <TouchableOpacity
+        style={styles.taskListItemDeleteButton}
+        onPress={() => {handlePressDelete(keyForDelete)}}
+      >
         <Icon name="Delete" size={20} color="#ccc" />
       </TouchableOpacity>
     </View>
@@ -67,7 +93,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   taskListItemInput: {
-
+    fontSize: 20,
+    width: 220,
   },
 });
 
