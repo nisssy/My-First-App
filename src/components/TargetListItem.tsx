@@ -6,15 +6,14 @@ import firebase from 'firebase';
 
 function TargetListItem(props) {
   const {monthOrigin, dataSet} = props;
-  const [list, setList] = useState(dataSet)
-  console.log(list)
+  const [data, setData] = useState(dataSet)
 
   useEffect(() => {
-    setList(dataSet)
+    setData(dataSet)
   }, dataSet)
-  const {id, target, achievement } =  list.find(item => item.month === monthOrigin);
-  const [text, setText] = useState(/* target */);
-  const [checked, setChecked] = useState(/* achievement */);
+  const {id, target, achievement } =  data.find(item => item.month === monthOrigin);
+  const [text, setText] = useState(target);
+  const [checked, setChecked] = useState(achievement);
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/target`).doc(id);
@@ -37,7 +36,7 @@ function TargetListItem(props) {
         <View style={styles.missionListItemLeft}>
           <Text style={styles.missionListItemMonth}>{monthOrigin}</Text>
           <View style={styles.checkboxContainer}>
-            <Checkbox size={30} /* docId={id} */ checked={checked} setChecked={setChecked} /* achievement={achievement} */ />
+            <Checkbox size={30} data={data} checked={checked} setChecked={setChecked} />
           </View>
         </View>
         <View style={styles.listItemTextContainer}>

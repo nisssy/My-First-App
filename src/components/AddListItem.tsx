@@ -30,8 +30,6 @@ function AddListItem(props) {
           title: '',
           start: null,
           end: null,
-          due: null,
-          left: null,
           achievement: false,
           createdAt: createdAt,
         })

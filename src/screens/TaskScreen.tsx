@@ -11,7 +11,7 @@ function Task() {
   useEffect(() => {
     const { currentUser } = firebase.auth();
     const db = firebase.firestore();
-    const ref = db.collection(`users/${currentUser?.uid}/task`);
+    const ref = db.collection(`users/${currentUser?.uid}/task`).orderBy('end', 'asc');
     let unsubscribe;
     const array: any = [];
     unsubscribe = ref.onSnapshot((snapshot) => {

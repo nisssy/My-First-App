@@ -26,7 +26,7 @@ function TaskList(props) {
       return (
         <View style={styles.taskList}>
           {
-            list.map((data, index) => (<TaskListItem data={data} key={index} index={index} dataSet={dataSet} setDataSet={setDataSet} />))
+            list.map((data, index) => (<TaskListItem data={data} key={index} dataSet={dataSet} setDataSet={setDataSet} />))
           }
           <AddListItem dataSet={dataSet} setDataSet={setDataSet} />
         </View>

@@ -18,8 +18,8 @@ function SignUpScreen(props) {
 
   function handlePress() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(async() => {
-        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+      .then(() => {
+            navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
       .catch(() => {
         Alert.alert('無効なメールアドレスです');
