@@ -11,9 +11,11 @@ function MilestoneNavigator() {
         <Stack.Screen
           name="Milestone"
           component={MilestoneScreen}
-          options={{headerStyle: {
-            height: 0,
-          }}}
+          options={
+            {headerStyle: {
+              height: 0,
+            }}
+          }
         />
         <Stack.Screen
           name="MilestoneEditor"

@@ -37,7 +37,7 @@ function MilestoneEditor(props) {
       end,
     })
       .then(() => {
-        navigation.goBack();
+        navigation.reset({ index: 0, routes: [{ name: 'Milestone' }] });
       }
       ).catch((error) => {
         Alert.alert(error);
