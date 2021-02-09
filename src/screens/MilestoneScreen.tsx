@@ -1,23 +1,68 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, StyleSheet, ScrollView, Text} from 'react-native';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
 import MonthLabel from '../components/MonthLabel';
+import {useIsFocused} from '@react-navigation/native';
+import firebase from 'firebase';
+import TimeContext from '../contexts/TimeContext';
 
 function Milestone(props) {
   const { navigation } = props;
+  const [list, setList] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [now, setNow] =useState(new Date())
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    setNow(new Date())
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    const ref = db.collection(`users/${currentUser?.uid}/task`).orderBy('end', 'asc')
+    let unsubscribe;
+    const array: any = [];
+    unsubscribe = ref.onSnapshot((snapshot) => {
+      snapshot.forEach((doc) => {
+        array.push({
+          id: doc.id,
+          title: doc.data().title,
+          createdAt: doc.data().createdAt,
+          start: doc.data().start,
+          end: doc.data().end,
+          achievement: doc.data().achievement,
+        })
+      })
+      if(array.length > 0) setList(array);
+    })
+    return unsubscribe;
+  }, [isFocused]);
+
+
+  useEffect(() => {
+    if(list !== undefined) {
+      setIsLoading(false);
+    }
+  }, [list])
+
+  if(isLoading) {
+    return (
+      <View><Text>Nowloading</Text></View>
+    )
+  }
 
   return (
-    <View style={styles.container}>
+    <TimeContext.Provider value={now}>
+      <View style={styles.container}>
       <Header displayLogout={false} displayBack={false} title="マイルストーン" fontSize={26} />
       <DateRepresentor />
       <ScrollView>
         <MonthLabel />
-        <MilestoneList navigation={navigation} />
+        <MilestoneList navigation={navigation} list={list} />
         <MonthLabel />
       </ScrollView>
-    </View>
+      </View>
+    </TimeContext.Provider>
   );
 }
 

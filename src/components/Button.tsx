@@ -28,16 +28,16 @@ Button.defaultProps = {
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    height: 48,
     backgroundColor: variables.mainColor,
     borderRadius: 4,
     alignSelf: 'flex-start',
     marginBottom: 24,
+    justifyContent: 'center',
   },
   buttonLabel: {
     fontSize: 16,
-    lineHeight: 32,
     paddingHorizontal: 32,
-    paddingVertical: 8,
     color: '#fff',
   },
 });

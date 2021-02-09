@@ -4,11 +4,8 @@ import Icon from './Icon';
 import firebase from 'firebase';
 
 function TaskListItem(props) {
-  const { data, dataSet, setDataSet, index } = props;
+  const { data, dataSet, setDataSet } = props;
   const [text, setText] = useState(data.title)
-  let keyForDelete;
-  index == 0 ? keyForDelete = true : keyForDelete =false;
-  console.log(keyForDelete)
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
@@ -24,10 +21,7 @@ function TaskListItem(props) {
           console.log(error)
         })
   }
-  function handlePressDelete(keyForDelete:boolean) {
-    if(keyForDelete) {
-      Alert.alert('一番目は削除できません')
-    } else {
+  function handlePressDelete() {
     ref.delete()
     .then(()=>{
       const newData = dataSet.filter(item => {
@@ -38,7 +32,7 @@ function TaskListItem(props) {
       .catch((error) => {
         console.log(error)
       })
-    }
+    // }
   }
 
   return (
@@ -57,7 +51,7 @@ function TaskListItem(props) {
       </View>
       <TouchableOpacity
         style={styles.taskListItemDeleteButton}
-        onPress={() => {handlePressDelete(keyForDelete)}}
+        onPress={handlePressDelete}
       >
         <Icon name="Delete" size={20} color="#ccc" />
       </TouchableOpacity>

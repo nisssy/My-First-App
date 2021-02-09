@@ -3,14 +3,14 @@ import { CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
 
 function Checkbox(props: any) {
-  const {docId, size, achievement, checked, setChecked} = props;
+  const {data, size, checked, setChecked} = props;
   useEffect(() => {
     setChecked(checked);
   }, [])
 
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
-  const ref = db.collection(`users/${currentUser?.uid}/target`).doc(docId);
+  const ref = data.target ?  db.collection(`users/${currentUser?.uid}/target`).doc(data.id) :  db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
   function handlePress() {
     if (checked) {
       setChecked(false);

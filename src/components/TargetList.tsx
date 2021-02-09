@@ -33,13 +33,12 @@ function TargetList  () {
     }
     return unsubscribe;
   }, [])
-  console.log(dataSet.length);
+
   useEffect(() => {
     if(dataSet.length > 2 ) {
       setIsLoading(false)
     }
   }, [dataSet])
-  console.log(isLoading)
 
   if( isLoading ) {
     return (

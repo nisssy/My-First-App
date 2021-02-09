@@ -1,41 +1,37 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
+import { variables } from '../lib/variables/stylingVariables';
+import Checkbox from './Checkbox';
 import Icon from './Icon';
+import TimeContents from './TimeContents';
 
 function MilestoneListItem(props) {
-  const { navigation } = props;
-  const [checked, setChecked] = useState(false);
+  const { navigation, data} = props;
+  const [checked, setChecked] = useState(data.achievement);
+  const defaultMessage = '(タイトルが未設定です)'
+  const title = data.title === '' ? defaultMessage : data.title;
+  const style =  title === defaultMessage ? {color: '#646464'} : {};
+
+
   function handlePress() {
-    if (checked) {
-      setChecked(false);
-    } else {
-      setChecked(true);
-      // Alert.alert('達成')
-    }
+    navigation.navigate('MilestoneEditor', { data });
   }
+
   return (
     <View style={styles.milestoneListItem}>
       <TouchableOpacity style={styles.successButton}>
-        <CheckBox
-          center
-          checked={checked}
-          checkedColor='green'
-          onPress={() => handlePress()}
-        />
+        <Checkbox size={25} data={data} checked={checked} setChecked={setChecked} />
       </TouchableOpacity>
       <View style={styles.milestoneListItemTextContainer}>
-        <Text style={styles.milestoneListItemText}>
-          ランサーズに登録
+        <Text style={[styles.milestoneListItemText, style]}>
+          {title}
         </Text>
-        <View style={styles.milestoneListItemTime}>
-          <Text style={styles.milestoneListListItemDue}>〆切：2021年1月24日</Text>
-          <Text style={styles.milestoneListListItemLeft}>残り：3日</Text>
-        </View>
+        <TimeContents data={data} />
       </View>
       <TouchableOpacity
         style={styles.timerButton}
-        onPress={() => navigation.navigate('MilestoneEditor')}
+        onPress={handlePress}
       >
         <Icon name="Timer" size={20} color="#ccc"  />
       </TouchableOpacity>
