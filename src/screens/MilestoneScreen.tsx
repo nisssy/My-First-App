@@ -7,6 +7,7 @@ import MonthLabel from '../components/MonthLabel';
 import {useIsFocused} from '@react-navigation/native';
 import firebase from 'firebase';
 import TimeContext from '../contexts/TimeContext';
+import { utcToZonedTime } from 'date-fns-tz';
 
 function Milestone(props) {
   const { navigation } = props;
@@ -24,16 +25,22 @@ function Milestone(props) {
     const array: any = [];
     unsubscribe = ref.onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
+        const checkStart = doc.data().start;
+        const checkEnd = doc.data().start;
+        const start = checkStart !== null ?  doc.data().start.seconds * 1000 : null ;
+        const end = checkEnd !== null ?  doc.data().end.seconds * 1000 : null ;
+
         array.push({
           id: doc.id,
           title: doc.data().title,
           createdAt: doc.data().createdAt,
-          start: doc.data().start,
-          end: doc.data().end,
+          start: start,
+          end: end,
           achievement: doc.data().achievement,
         })
       })
       if(array.length > 0) setList(array);
+
     })
     return unsubscribe;
   }, [isFocused]);

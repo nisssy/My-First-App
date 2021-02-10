@@ -13,31 +13,32 @@ function TimeContents(props) {
   const [left, setLeft] = useState(0);
   const [due, setDue] = useState('');
   const [textColor, setTextColor] = useState({color: '#646464'})
+
   useEffect(() => {
     if(data.end == null) return;
-    const jstNow = utcToZonedTime(now, 'Asia/Tokyo').getTime();
+      const jstNow = utcToZonedTime(now, 'Asia/Tokyo');
 
-    const jstEnd = utcToZonedTime(data.end.seconds, 'Asia/Tokyo').getTime();
-    const left = jstEnd - Math.floor(jstNow / 1000);
+      const jstEnd = utcToZonedTime(data.end, 'Asia/Tokyo').getTime();
+      const left = jstEnd - Math.floor(jstNow);
 
-    const leftDay = Math.floor(left / 60 / 60 / 24) + 1;
-    setLeft(leftDay)
-    const endString = format(data.end.seconds * 1000, 'yyyy年MM月dd日');
-    setDue(endString);
-    leftDay <= 1 ? setTextColor({color: '#A1AD17'}) : leftDay <= 3 ? setTextColor({color: '#FA5046'}) : setTextColor({color: '#646464'});
+      const leftDay = Math.floor(left/ 1000 / 60 / 60 / 24) + 1;
+      setLeft(leftDay)
+      const endString = format(data.end, 'yyyy年MM月dd日');
+      setDue(endString);
+      leftDay <= 1 ? setTextColor({color: '#A1AD17'}) : leftDay <= 3 ? setTextColor({color: '#FA5046'}) : setTextColor({color: '#646464'});
   },[now])
 
   function handlePress() {
     navigation.navigate('MilestoneEditor', { data });
   }
 
-  if(data.end == null) {
+   if(data.end == null) {
     return (
       <View style={styles.milestoneListItemTime}>
         <Button value={'〆切を設定'} onPress={handlePress} style={styles.styleForButton} />
       </View>
     )
-  }
+   }
     return (
       <View style={styles.milestoneListItemTime}>
         <Text style={[styles.milestoneListListItemDue, textColor]}>{`〆切：${due}`}</Text>

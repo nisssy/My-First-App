@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import MilestoneListItem from './MilestoneListItem';
+import { utcToZonedTime } from 'date-fns-tz';
 
 function MilestoneList(props) {
   const {navigation, list} = props;
@@ -9,6 +10,7 @@ function MilestoneList(props) {
       e.id === element.id
     ) === index
   );
+
   return (
     <View>
       {
