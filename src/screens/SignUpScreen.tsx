@@ -53,6 +53,7 @@ function SignUpScreen(props) {
         <Button
           value="完了"
           onPress={handlePress}
+          style={styles.button}
         />
         <View style={styles.footer}>
           <Text style={styles.footerText}>ご登録済みですか?</Text>
@@ -101,6 +102,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
+  },
+  button: {
+    marginTop: 8,
+    height: 48,
+    alignSelf: 'flex-start',
   },
   footerText: {
     fontSize: 14,

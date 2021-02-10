@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import { variables } from '../lib/variables/stylingVariables';
 import KeyboardSafeView from '../components/KeyboardSafeView';
 import firebase from 'firebase';
+import CircleButton from '../components/CircleButton';
 
 function ToDoEditor(props) {
   const [text, setText] = useState()
@@ -41,14 +42,7 @@ function ToDoEditor(props) {
             autoFocus
           />
         </View>
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={handlePress}
-        >
-          <View style={styles.editButtonOuter}>
-            <Feather name="check" size={25} color="#fff" />
-          </View>
-        </TouchableOpacity>
+        <CircleButton name="check" onPress={handlePress} style={styles.checkButton} />
     </KeyboardSafeView>
   );
 }
@@ -66,35 +60,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 32,
   },
-  button: {
+  checkButton: {
     position: 'absolute',
     bottom: 120,
     right: 40,
-    marginTop: 32,
-    backgroundColor: variables.mainColor,
-    alignSelf: 'flex-start',
-  },
-  buttonLabel: {
-    lineHeight: 32,
-    padding: 5,
-    paddingRight: 42,
-    paddingLeft: 42,
-    fontSize: 16,
-    color: '#fff',
-  },
-  editButton: {
-    position: 'absolute',
-    bottom: 120,
-    right: 40,
-  },
-  editButtonOuter: {
-    top:0,
-    width: 64,
-    height: 64,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: variables.mainColor,
-    borderRadius: 32,
   },
 });
 

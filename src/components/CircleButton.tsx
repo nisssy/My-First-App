@@ -2,48 +2,50 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { func, shape, string } from 'prop-types';
 import { variables } from '../lib/variables/stylingVariables';
+import { Feather } from '@expo/vector-icons';
 
-function Button(props) {
-  const { value, onPress, style } = props;
+function CircleButton(props) {
+  const { name , onPress, style } = props;
 
   return (
     <TouchableOpacity
       style={[styles.buttonContainer, style]}
       onPress={onPress}
     >
-      <Text style={styles.buttonLabel}>{value}</Text>
+        <Feather name={name} size={25} color="#fff" />
     </TouchableOpacity>
   );
 }
 
-Button.propTypes = {
-  value: string.isRequired,
+CircleButton.propTypes = {
+  name: string.isRequired,
   onPress: func.isRequired,
   style: shape(),
 };
 
-Button.defaultProps = {
+CircleButton.defaultProps = {
   style: null,
 };
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    backgroundColor: variables.mainColor,
-    borderRadius: 4,
-    paddingRight: 42,
-    paddingLeft: 42,
-    marginBottom: 24,
+    width: 64,
+    height: 64,
+    alignItems: 'center',
     justifyContent: 'center',
-    lineHeight: 32,
-    padding: 8,
-    fontSize: 16,
-    color: '#fff',
+    backgroundColor: variables.mainColor,
+    borderRadius: 32,
+    zIndex: 900,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    elevation: 8,
   },
   buttonLabel: {
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 32,
     color: '#fff',
   },
 });
 
-export default Button;
+export default CircleButton;

@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: 8,
     height: 28,
+    padding: 0,
+    paddingLeft: 41,
 
   },
   milestoneListListItemDue:{

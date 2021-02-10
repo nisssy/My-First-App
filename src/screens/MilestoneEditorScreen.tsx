@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import { variables } from '../lib/variables/stylingVariables';
 import { format } from 'date-fns';
 import firebase from 'firebase';
+import Button from '../components/Button';
 
 function MilestoneEditor(props) {
   const { navigation, route } = props;
@@ -54,18 +55,16 @@ function MilestoneEditor(props) {
           <Text style={styles.text}>〆切：{due}</Text>
           <Text style={styles.text}>残り：{`${left}日`}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.button}
+        <Button
+          value="設定完了"
           onPress={handlePress}
-        >
-            <Text style={styles.buttonLabel}>設定完了</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          style={styles.button}
+        />
+        <Button
+          value="設定完了"
+          onPress={handlePress}
           style={styles.buttonCancel}
-          onPress={() => navigation.goBack()}
-        >
-            <Text style={styles.buttonLabelCancel}>キャンセル</Text>
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -97,27 +96,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 72,
-    backgroundColor: variables.mainColor,
   },
   buttonCancel:{
-    width: 145,
-    marginTop: 24,
     backgroundColor: '#ccc',
-    alignItems: 'center',
-  },
-  buttonLabel: {
-    lineHeight: 32,
-    padding: 5,
-    paddingRight: 42,
-    paddingLeft: 42,
-    fontSize: 16,
-    color: '#fff',
-  },
-  buttonLabelCancel: {
-    lineHeight: 32,
-    padding: 5,
-    fontSize: 16,
-    color: '#fff',
   },
 });
 
