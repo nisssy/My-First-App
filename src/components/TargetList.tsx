@@ -82,9 +82,9 @@ function TargetList  () {
     return (
       <ScrollView style={styles.container}>
         <QuoterContainerTop />
-        <TargetListItem monthOrigin="1月" dataSet={dataSet} />
-        <TargetListItem monthOrigin="2月" dataSet={dataSet} />
-        <TargetListItem monthOrigin="3月" dataSet={dataSet} />
+          <TargetListItem monthOrigin="1月" dataSet={dataSet} />
+          <TargetListItem monthOrigin="2月" dataSet={dataSet} />
+          <TargetListItem monthOrigin="3月" dataSet={dataSet} />
         <QuoterContainerBottom />
     </ScrollView>
     )

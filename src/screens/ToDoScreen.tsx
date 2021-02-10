@@ -10,6 +10,7 @@ import { useIsFocused } from '@react-navigation/native';
 import firebase from 'firebase';
 import TimeContext from '../contexts/TimeContext';
 import Memo from '../components/Memo';
+import CircleButton from '../components/CircleButton';
 
 function ToDo(props) {
   const { navigation } = props;
@@ -93,21 +94,14 @@ function ToDo(props) {
       <View style={styles.container}>
       <Header displayLogout={false} displayBack={false} title="ToDo" fontSize={30} />
       <DateRepresentor />
-
       <ScrollView>
         <MonthLabel />{/* やることがここに入るのでコンポーネントの名前位を変更することを検討する  今日のやることとか？  */ }
         <MilestoneList navigation={navigation} list={list} />
         <View style={styles.todoTextContainer}>
           <Text style={styles.todoText}>その他やることメモ</Text>
-            <TouchableOpacity
-            onPress={() => navigation.navigate('ToDoEditor')}
-            style={styles.editButton}
-          >
-              <Feather name="edit" size={25} color="#fff" style={styles.icon} />
-            </TouchableOpacity>
-
+          <CircleButton name="edit" onPress={() => navigation.navigate('ToDoEditor')}  style={styles.editButton} />
         </View>
-        <View style={styles.ToDoList}>
+        <View style={styles.ToDoMemo}>
           <Memo data={data} />
         </View>
       </ScrollView>
@@ -131,7 +125,7 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     color: variables.mainColor,
   },
-  ToDoList: {
+  ToDoMemo: {
     flex: 1,
     marginTop: 64,
     marginLeft: 40,
@@ -144,17 +138,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 12,
     right: 40,
-    width: 64,
-    height: 64,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: variables.mainColor,
-    borderRadius: 32,
-    zIndex: 900,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
-    elevation: 8,
   },
 });
 
