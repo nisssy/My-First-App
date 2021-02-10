@@ -36,7 +36,7 @@ function TargetListItem(props) {
         <View style={styles.missionListItemLeft}>
           <Text style={styles.missionListItemMonth}>{monthOrigin}</Text>
           <View style={styles.checkboxContainer}>
-            <Checkbox size={30} data={data} checked={checked} setChecked={setChecked} />
+            {/* <Checkbox size={30} data={data} checked={checked} setChecked={setChecked} /> */}
           </View>
         </View>
         <View style={styles.listItemTextContainer}>

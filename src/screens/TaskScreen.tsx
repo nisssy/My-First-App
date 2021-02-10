@@ -8,6 +8,14 @@ import firebase from 'firebase';
 
 function Task() {
   const [list, setList] = useState()
+  function arrayFilter(array: []) {
+    const filteredList = array.filter((element, index, self) =>
+      self.findIndex(e =>
+        e.id === element.id
+      ) === index
+    );
+        setList(filteredList)
+    }
   useEffect(() => {
     const { currentUser } = firebase.auth();
     const db = firebase.firestore();
@@ -22,7 +30,7 @@ function Task() {
           createdAt: doc.data().createdAt,
         })
       })
-      if(array !== undefined)setList(array)
+      if(array !== undefined)arrayFilter(array);
     })
     return unsubscribe;
   }, [])
