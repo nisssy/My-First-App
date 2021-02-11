@@ -2,11 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { variables } from '../lib/variables/stylingVariables';
 
-function QuoterContainerTop() {
+function QuoterContainerTop(props) {
+  const { quoter } = props;
   return (
     <View style={styles.quoterContainerTop}>
       <View style={styles.quoterContainerTopInner}>
-        <Text style={styles.quoterText}>1Q</Text>
+        <Text style={styles.quoterText}>{quoter}</Text>
       </View>
     </View>
   );

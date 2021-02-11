@@ -1,33 +1,40 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, Alert, View, Text } from 'react-native';
 import firebase from 'firebase';
-import TargetListItem from './TargetListItem';
-import QuoterContainerBottom from './QuoterContainerBottom';
-import QuoterContainerTop from './QuoterContainerTop';
 import Button from './Button';
+import TargetListQuoter from './TargetListQuoter';
 
 function TargetList() {
-  const [dataSet, setDataSet] = useState([]);
+  const [dataSetForMonth, setDataSetForMonth] = useState([]);
+  const [dataSetForQuoter, setDataSetForQuoter] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { currentUser } = firebase.auth();
+  const db = firebase.firestore();
+
+  const refForMonth = db.collection(
+    `users/${currentUser?.uid}/target/data/month`
+  );
+  const refForQuoter = db.collection(
+    `users/${currentUser?.uid}/target/data/quoter`
+  );
 
   useEffect(() => {
-    const { currentUser } = firebase.auth();
     let unsubscribe = () => {};
     if (currentUser) {
-      const db = firebase.firestore();
-      const ref = db.collection(`users/${currentUser?.uid}/target`);
-      const array = [];
-      unsubscribe = ref.onSnapshot(
+      const arrayMonth = [];
+      unsubscribe = refForMonth.onSnapshot(
         (snapshot) => {
           snapshot.forEach((doc) => {
-            array.push({
+            arrayMonth.push({
               id: doc.id,
               month: doc.data().month,
               target: doc.data().target,
               achievement: doc.data().achievement,
+              belong: doc.data().belong,
             });
           });
-          if (array.length > 2) setDataSet(array);
+          if (arrayMonth.length > 11) setDataSetForMonth(arrayMonth);
         },
         () => {
           Alert.alert('データの読み込みに失敗');
@@ -38,10 +45,33 @@ function TargetList() {
   }, []);
 
   useEffect(() => {
-    if (dataSet.length > 2) {
+    let unsubscribe = () => {};
+    if (currentUser) {
+      const arrayQuoter = [];
+      unsubscribe = refForQuoter.onSnapshot(
+        (snapshot) => {
+          snapshot.forEach((doc) => {
+            arrayQuoter.push({
+              id: doc.id,
+              quoter: doc.data().quoter,
+              target: doc.data().target,
+            });
+          });
+          if (arrayQuoter.length > 3) setDataSetForQuoter(arrayQuoter);
+        },
+        () => {
+          Alert.alert('データの読み込みに失敗');
+        }
+      );
+    }
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (dataSetForMonth.length > 11) {
       setIsLoading(false);
     }
-  }, [dataSet]);
+  }, [dataSetForMonth, dataSetForQuoter]);
 
   if (isLoading) {
     return (
@@ -50,39 +80,45 @@ function TargetList() {
         <Button
           value="スタート"
           onPress={() => {
-            const { currentUser } = firebase.auth();
-            const db = firebase.firestore();
-            const ref = db.collection(`users/${currentUser?.uid}/target`);
-            ref.add({
-              month: '1月',
-              target: '',
-              achievement: false,
-            });
-            ref.add({
-              month: '2月',
-              target: '',
-              achievement: false,
-            });
-            ref
-              .add({
-                month: '3月',
-                target: '',
-                achievement: false,
-              })
-              .then(() => {})
-              .catch((error) => {});
+            for (let i = 1; i <= 12; i++) {
+              const belong =
+                i > 0 && i <= 3
+                  ? '1Q'
+                  : i > 3 && i <= 6
+                    ? '2Q'
+                    : i > 6 && i <= 9
+                      ? '3Q'
+                      : '4Q';
+              refForMonth
+                .add({
+                  month: `${i}月`,
+                  target: '',
+                  achievement: false,
+                  belongQuoter: belong,
+                })
+                .then(() => setIsLoading(false));
+            }
+            for (let i = 1; i <= 4; i++) {
+              refForQuoter
+                .add({
+                  quoter: `${i}Q`,
+                  target: '',
+                })
+                .then(() => setIsLoading(false));
+            }
           }}
         />
       </View>
     );
   }
+
   return (
     <ScrollView style={styles.container}>
-      <QuoterContainerTop />
-      <TargetListItem monthOrigin="1月" dataSet={dataSet} />
-      <TargetListItem monthOrigin="2月" dataSet={dataSet} />
-      <TargetListItem monthOrigin="3月" dataSet={dataSet} />
-      <QuoterContainerBottom />
+      <TargetListQuoter
+        dataSetForMonth={dataSetForMonth}
+        dataSetForQuoter={dataSetForQuoter}
+        quoter="1Q"
+      />
     </ScrollView>
   );
 }

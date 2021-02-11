@@ -5,6 +5,7 @@ import { utcToZonedTime } from 'date-fns-tz';
 import { format } from 'date-fns';
 import Button from './Button';
 import TimeContext from '../contexts/TimeContext';
+import { variables } from '../lib/variables/stylingVariables';
 
 function TimeContents(props) {
   const { data } = props;
@@ -30,9 +31,9 @@ function TimeContents(props) {
     const endString = format(data.end, 'yyyy年MM月dd日');
     setDue(endString);
     if (leftDay <= 1) {
-      setTextColor({ color: '#FA5046' });
+      setTextColor({ color: 'red' });
     } else if (leftDay <= 3) {
-      setTextColor({ color: '#A1AD17' });
+      setTextColor({ color: variables.mainColor });
     }
   }, [now]);
 
