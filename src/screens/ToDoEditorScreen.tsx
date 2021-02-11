@@ -1,48 +1,60 @@
 import React, { useState } from 'react';
-import { Feather } from '@expo/vector-icons';
-import { TouchableOpacity, View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
-import Header from '../components/Header';
-import { variables } from '../lib/variables/stylingVariables';
-import KeyboardSafeView from '../components/KeyboardSafeView';
+
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import firebase from 'firebase';
+import Header from '../components/Header';
+import KeyboardSafeView from '../components/KeyboardSafeView';
 import CircleButton from '../components/CircleButton';
 
 function ToDoEditor(props) {
-  const [text, setText] = useState()
+  const [text, setText] = useState();
   const { navigation } = props;
 
-
-
   function handlePress() {
-    if(text === undefined) return navigation.goBack();
+    if (text === undefined) return navigation.goBack();
     const { currentUser } = firebase.auth();
-    navigation.reset({index: 0, routes: [{name: 'ToDo'}]})
+    navigation.reset({ index: 0, routes: [{ name: 'ToDo' }] });
     const db = firebase.firestore();
-      const ref = db.collection(`/users/${currentUser?.uid}/memo`).doc('memo');
-      ref.set({
-        memo: text,
-        updatedAt: new Date(),
-      }, { merge: true })
-        .then(() => {
-          navigation.reset({index: 1, routes: [{name: 'ToDo'}]});
-        })
-        .catch((error) => {
-          Alert.alert(error.code);
-        });
+    const ref = db.collection(`/users/${currentUser?.uid}/memo`).doc('memo');
+    ref
+      .set(
+        {
+          memo: text,
+          updatedAt: new Date(),
+        },
+        { merge: true }
+      )
+      .then(() => {
+        navigation.reset({ index: 1, routes: [{ name: 'ToDo' }] });
+      })
+      .catch((error) => {
+        Alert.alert(error.code);
+      });
   }
+
   return (
     <KeyboardSafeView style={styles.container}>
-        <Header displayLogout={false} displayBack title="ToDo" fontSize={30} navigation={navigation}/>
-        <View style={styles.textContainer}>
-          <TextInput
-            value={text}
-            multiline
-            style={styles.input}
-            onChangeText={(textInput) => setText(textInput)}
-            autoFocus
-          />
-        </View>
-        <CircleButton name="check" onPress={handlePress} style={styles.checkButton} />
+      <Header
+        displayLogout={false}
+        displayBack
+        title="ToDo"
+        fontSize={30}
+        navigation={navigation}
+      />
+      <View style={styles.textContainer}>
+        <TextInput
+          value={text}
+          multiline
+          style={styles.input}
+          onChangeText={(textInput) => setText(textInput)}
+          autoFocus
+        />
+      </View>
+      <CircleButton
+        name="check"
+        onPress={handlePress}
+        style={styles.checkButton}
+      />
     </KeyboardSafeView>
   );
 }

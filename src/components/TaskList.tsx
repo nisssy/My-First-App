@@ -1,47 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import AddListItem from './AddListItem';
 import TaskListItem from './TaskListItem';
-import firebase from 'firebase';
 
 function TaskList(props) {
   const { list } = props;
-  const [dataSet, setDataSet] = useState(list)
+  const [dataSet, setDataSet] = useState(list);
   useEffect(() => {
-    setDataSet(list)
-  } ,list)
+    setDataSet(list);
+  }, list);
 
-
-    if (JSON.stringify(dataSet) !== undefined) {
-      const list = dataSet.filter((element, index, self) =>
-        self.findIndex(e =>
-          e.id === element.id
-        ) === index
-      );
-      list.sort(function(a,b){
-        if(a.createdAt < b.createdAt) return 1;
-        if(a.createdAt > b.createdAt) return -1;
-        return 0;
-      });
-      return (
-        <View style={styles.taskList}>
-          {
-            list.map((data, index) => (<TaskListItem data={data} key={index} dataSet={dataSet} setDataSet={setDataSet} />))
-          }
-          <AddListItem dataSet={dataSet} setDataSet={setDataSet} />
-        </View>
-      )} else {
-        return (
-          <View style={styles.taskList}>
-            <AddListItem />
-          </View>
-        )
-      }
+  if (JSON.stringify(dataSet) !== undefined) {
+    const list = dataSet.filter(
+      (element, index, self) =>
+        self.findIndex((e) => e.id === element.id) === index
+    );
+    list.sort(function (a, b) {
+      if (a.createdAt < b.createdAt) return 1;
+      if (a.createdAt > b.createdAt) return -1;
+      return 0;
+    });
+    return (
+      <View style={styles.taskList}>
+        {list.map((data, index) => (
+          <TaskListItem
+            data={data}
+            key={index}
+            dataSet={dataSet}
+            setDataSet={setDataSet}
+          />
+        ))}
+        <AddListItem dataSet={dataSet} setDataSet={setDataSet} />
+      </View>
+    );
+  }
+  return (
+    <View style={styles.taskList}>
+      <AddListItem />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  taskList: {
-  },
+  taskList: {},
   taskListItem: {
     width: '100%',
     height: 80,

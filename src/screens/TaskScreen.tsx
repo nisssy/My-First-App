@@ -1,43 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import firebase from 'firebase';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MonthLabel from '../components/MonthLabel';
 import TaskList from '../components/TaskList';
-import firebase from 'firebase';
 
 function Task() {
-  const [list, setList] = useState()
+  const [list, setList] = useState();
   function arrayFilter(array: []) {
-    const filteredList = array.filter((element, index, self) =>
-      self.findIndex(e =>
-        e.id === element.id
-      ) === index
+    const filteredList = array.filter(
+      (element, index, self) =>
+        self.findIndex((e) => e.id === element.id) === index
     );
-        setList(filteredList)
-    }
+    setList(filteredList);
+  }
   useEffect(() => {
     const { currentUser } = firebase.auth();
     const db = firebase.firestore();
-    const ref = db.collection(`users/${currentUser?.uid}/task`).orderBy('end', 'asc');
-    let unsubscribe;
+    const ref = db
+      .collection(`users/${currentUser?.uid}/task`)
+      .orderBy('end', 'asc');
     const array: any = [];
-    unsubscribe = ref.onSnapshot((snapshot) => {
+    const unsubscribe = ref.onSnapshot((snapshot) => {
       snapshot.forEach((doc) => {
         array.push({
           id: doc.id,
           title: doc.data().title,
           createdAt: doc.data().createdAt,
-        })
-      })
-      if(array !== undefined)arrayFilter(array);
-    })
+        });
+      });
+      if (array !== undefined) arrayFilter(array);
+    });
     return unsubscribe;
-  }, [])
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Header displayLogout={false} displayBack={false} title="やること" fontSize={28} />
+      <Header
+        displayLogout={false}
+        displayBack={false}
+        title="やること"
+        fontSize={28}
+      />
       <DateRepresentor />
       <ScrollView>
         <MonthLabel />

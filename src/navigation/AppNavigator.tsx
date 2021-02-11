@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 import MainTabNavigator from './MainTabNavigator';
 import LogInScreen from '../screens/LogInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import { NavigationContainer } from '@react-navigation/native';
 import { variables } from '../lib/variables/stylingVariables';
 
 const Stack = createStackNavigator();
@@ -23,9 +23,11 @@ function AppNavigator() {
         <Stack.Screen
           name="Main"
           component={MainTabNavigator}
-          options={{headerStyle: {
-            height: 0,
-          }}}
+          options={{
+            headerStyle: {
+              height: 0,
+            },
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

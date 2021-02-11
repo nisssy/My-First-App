@@ -2,32 +2,34 @@ import React from 'react';
 import firebase from 'firebase';
 import { Feather } from '@expo/vector-icons';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { variables } from '../lib/variables/stylingVariables';
 import { useNavigation } from '@react-navigation/native';
+import { variables } from '../lib/variables/stylingVariables';
 
 function Header(props: any) {
-  const {displayLogout, displayBack, title, fontSize} = props;
-  let logoutButtonStyle;
-  let backButtonStyle;
-  logoutButtonStyle = displayLogout ? styles.displayFlex : styles.displayNone;
-  backButtonStyle = displayBack ? styles.displayFlex : styles.displayNone;
+  const { displayLogout, displayBack, title, fontSize } = props;
+  const logoutButtonStyle = displayLogout
+    ? styles.displayFlex
+    : styles.displayNone;
+  const backButtonStyle = displayBack ? styles.displayFlex : styles.displayNone;
 
   const navigation = useNavigation();
 
   function handlePress() {
-    firebase.auth().signOut()
+    firebase
+      .auth()
+      .signOut()
       .then(() => {
-        navigation.reset({index: 0, routes: [{name: 'LogIn'}]});
+        navigation.reset({ index: 0, routes: [{ name: 'LogIn' }] });
       })
       .catch((error) => {
-        Alert.alert('ログアウトに失敗しました')
-      })
+        Alert.alert('ログアウトに失敗しました');
+      });
   }
 
   return (
     <View style={styles.header}>
       <View style={styles.inner}>
-        <Text style={[styles.screenTitle, {fontSize: fontSize}]}>{title}</Text>
+        <Text style={[styles.screenTitle, { fontSize }]}>{title}</Text>
       </View>
       <TouchableOpacity
         style={[styles.logoutContainer, logoutButtonStyle]}
@@ -42,8 +44,8 @@ function Header(props: any) {
         <Feather name="arrow-left" color="#fff" size={25} />
         <Text style={styles.backText}>back</Text>
       </TouchableOpacity>
-  </View>
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

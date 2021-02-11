@@ -28,7 +28,9 @@ function LogInScreen(props) {
   }, []);
 
   function handlePress() {
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
       .then(() => {
         navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
@@ -61,19 +63,16 @@ function LogInScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        <Button
-          value="ログイン"
-          onPress={handlePress}
-          style={styles.button}
-        />
+        <Button value="ログイン" onPress={handlePress} style={styles.button} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>ご登録済みですか？</Text>
-          <TouchableOpacity onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'SignUp' }],
-            });
-          }}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'SignUp' }],
+              });
+            }}
           >
             <Text style={styles.footerLink}>サインアップはこちら！</Text>
           </TouchableOpacity>

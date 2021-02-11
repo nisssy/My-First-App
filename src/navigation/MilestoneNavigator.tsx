@@ -7,24 +7,26 @@ const Stack = createStackNavigator();
 
 function MilestoneNavigator() {
   return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Milestone"
-          component={MilestoneScreen}
-          options={
-            {headerStyle: {
-              height: 0,
-            }}
-          }
-        />
-        <Stack.Screen
-          name="MilestoneEditor"
-          component={MilestoneEditorScreen}
-          options={{headerStyle: {
+    <Stack.Navigator initialRouteName="Milestone">
+      <Stack.Screen
+        name="Milestone"
+        component={MilestoneScreen}
+        options={{
+          headerStyle: {
             height: 0,
-          }}}
-        />
-      </Stack.Navigator>
+          },
+        }}
+      />
+      <Stack.Screen
+        name="MilestoneEditor"
+        component={MilestoneEditorScreen}
+        options={{
+          headerStyle: {
+            height: 0,
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 

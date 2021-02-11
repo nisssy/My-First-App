@@ -7,10 +7,7 @@ function Button(props) {
   const { value, onPress, style } = props;
 
   return (
-    <TouchableOpacity
-      style={[styles.buttonContainer, style]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[styles.buttonContainer, style]} onPress={onPress}>
       <Text style={styles.buttonLabel}>{value}</Text>
     </TouchableOpacity>
   );

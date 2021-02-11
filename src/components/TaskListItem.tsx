@@ -1,44 +1,44 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, StyleSheet, TextInput, Alert } from 'react-native';
-import Icon from './Icon';
+import { TouchableOpacity, View, StyleSheet, TextInput } from 'react-native';
 import firebase from 'firebase';
+import Icon from './Icon';
 
 function TaskListItem(props) {
   const { data, dataSet, setDataSet } = props;
-  const [text, setText] = useState(data.title)
+  const [text, setText] = useState(data.title);
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
 
   function handlePress() {
-      ref.update({
+    ref
+      .update({
         title: text,
       })
-        .then(() => {
-          return;
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
   }
   function handlePressDelete() {
-    ref.delete()
-    .then(()=>{
-      const newData = dataSet.filter(item => {
-        return item.id !== data.id
+    ref
+      .delete()
+      .then(() => {
+        const newData = dataSet.filter((item) => {
+          return item.id !== data.id;
+        });
+        setDataSet(newData);
       })
-      setDataSet(newData)
-    })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
     // }
   }
 
   return (
     <View style={styles.taskListItem} key={data.id}>
       <View style={styles.taskListItemTextContainer}>
-      <TextInput
+        <TextInput
           value={text}
           style={styles.taskListItemInput}
           onChangeText={(textInput) => setText(textInput)}
@@ -56,19 +56,18 @@ function TaskListItem(props) {
         <Icon name="Delete" size={20} color="#ccc" />
       </TouchableOpacity>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  taskList: {
-  },
+  taskList: {},
   taskListItem: {
     width: '100%',
     height: 80,
     flexDirection: 'row',
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   taskListItemTextContainer: {
     marginLeft: 32,
