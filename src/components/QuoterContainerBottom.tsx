@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, ScrollView} from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { variables } from '../lib/variables/stylingVariables';
 import Icon from './Icon';
 
@@ -17,7 +17,7 @@ function QuoterContainerBottom() {
         <Icon name="Delete" size={24} color="#ccc" />
       </TouchableOpacity>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-})
+});
 
 export default QuoterContainerBottom;

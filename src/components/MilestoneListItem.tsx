@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
-import { CheckBox } from 'react-native-elements';
-import { variables } from '../lib/variables/stylingVariables';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
 import TimeContents from './TimeContents';
 
 function MilestoneListItem(props) {
-  const { navigation, data} = props;
+  const { navigation, data } = props;
   const [checked, setChecked] = useState(data.achievement);
-  const defaultMessage = '(タイトルが未設定です)'
+  const defaultMessage = '(タイトルが未設定です)';
   const title = data.title === '' ? defaultMessage : data.title;
-  const style =  title === defaultMessage ? {color: '#646464'} : {};
-
+  const style = title === defaultMessage ? { color: '#646464' } : {};
 
   function handlePress() {
     navigation.navigate('MilestoneEditor', { data });
@@ -21,22 +18,22 @@ function MilestoneListItem(props) {
   return (
     <View style={styles.milestoneListItem}>
       <TouchableOpacity style={styles.successButton}>
-        <Checkbox size={25} data={data} checked={checked} setChecked={setChecked} />
+        <Checkbox
+          size={25}
+          data={data}
+          checked={checked}
+          setChecked={setChecked}
+        />
       </TouchableOpacity>
       <View style={styles.milestoneListItemTextContainer}>
-        <Text style={[styles.milestoneListItemText, style]}>
-          {title}
-        </Text>
+        <Text style={[styles.milestoneListItemText, style]}>{title}</Text>
         <TimeContents data={data} />
       </View>
-      <TouchableOpacity
-        style={styles.timerButton}
-        onPress={handlePress}
-      >
-        <Icon name="Timer" size={20} color="#ccc"  />
+      <TouchableOpacity style={styles.timerButton} onPress={handlePress}>
+        <Icon name="Timer" size={20} color="#ccc" />
       </TouchableOpacity>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -57,9 +54,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 32,
   },
-  milestoneListItemTime: {
-  },
-  milestoneListListItemDue:{
+  milestoneListItemTime: {},
+  milestoneListListItemDue: {
     color: '#646464',
     fontSize: 14,
     lineHeight: 24,

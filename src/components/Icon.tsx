@@ -9,9 +9,8 @@ export default function Icon(props: any) {
   const [fontLoaded] = useFonts({ icomoon });
   const { name, size, color } = props;
   const CustomIcon = createIconSetFromIcoMoon(selection);
-  if(fontLoaded) {
-    return <CustomIcon name={name} size={size} color={color} />
-  } else {
-    return null;
+  if (fontLoaded) {
+    return <CustomIcon name={name} size={size} color={color} />;
   }
+  return null;
 }

@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 function MainTabNavigator() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName="Target">
       <Tab.Screen
         tabBarOptions={{
           activeTintColor: variables.mainColor,

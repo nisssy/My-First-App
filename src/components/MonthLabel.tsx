@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { variables } from '../lib/variables/stylingVariables';
 
@@ -10,11 +10,11 @@ function MonthLabel() {
         <Text style={styles.monthLabel}>1月</Text>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  monthLabelContainer:{
+  monthLabelContainer: {
     height: 64,
     backgroundColor: variables.subColor,
     justifyContent: 'center',

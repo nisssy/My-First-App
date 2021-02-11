@@ -17,9 +17,11 @@ function SignUpScreen(props) {
   const [password, setPassword] = useState('');
 
   function handlePress() {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
       .then(() => {
-            navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
       .catch(() => {
         Alert.alert('無効なメールアドレスです');
@@ -50,19 +52,16 @@ function SignUpScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        <Button
-          value="完了"
-          onPress={handlePress}
-          style={styles.button}
-        />
+        <Button value="完了" onPress={handlePress} style={styles.button} />
         <View style={styles.footer}>
           <Text style={styles.footerText}>ご登録済みですか?</Text>
-          <TouchableOpacity onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'LogIn' }],
-            });
-          }}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'LogIn' }],
+              });
+            }}
           >
             <Text style={styles.footerLink}>ログインはこちら.</Text>
           </TouchableOpacity>

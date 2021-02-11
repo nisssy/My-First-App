@@ -1,18 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { func, shape, string } from 'prop-types';
-import { variables } from '../lib/variables/stylingVariables';
 import { Feather } from '@expo/vector-icons';
+import { variables } from '../lib/variables/stylingVariables';
 
 function CircleButton(props) {
-  const { name , onPress, style } = props;
+  const { name, onPress, style } = props;
 
   return (
-    <TouchableOpacity
-      style={[styles.buttonContainer, style]}
-      onPress={onPress}
-    >
-        <Feather name={name} size={25} color="#fff" />
+    <TouchableOpacity style={[styles.buttonContainer, style]} onPress={onPress}>
+      <Feather name={name} size={25} color="#fff" />
     </TouchableOpacity>
   );
 }

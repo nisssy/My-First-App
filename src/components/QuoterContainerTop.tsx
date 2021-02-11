@@ -9,7 +9,7 @@ function QuoterContainerTop() {
         <Text style={styles.quoterText}>1Q</Text>
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: variables.mainColor,
   },
-})
+});
 
 export default QuoterContainerTop;

@@ -6,12 +6,10 @@ function DateRepresentor() {
     <View style={styles.yearContainer}>
       <Text style={styles.year}>
         2021
-        <Text style={styles.yearKanji}>
-          年
-        </Text>
+        <Text style={styles.yearKanji}>年</Text>
       </Text>
-  </View>
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, Text, StyleSheet, Alert} from 'react-native';
-import Icon from './Icon';
+import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native';
 import firebase from 'firebase';
+import Icon from './Icon';
 
 function AddListItem(props) {
   const { dataSet, setDataSet } = props;
@@ -9,14 +9,13 @@ function AddListItem(props) {
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/task`);
   let array: any;
-  dataSet === undefined ?  array = [] :  array = dataSet;
+  array = typeof dataSet === 'undefined' ? (array = []) : (array = dataSet);
   function handleState(array) {
-    const result = array.filter((element, index, self) =>
-      self.findIndex(e =>
-        e.id === element.id
-      ) === index
+    const result = array.filter(
+      (element, index, self) =>
+        self.findIndex((e) => e.id === element.id) === index
     );
-    if(setDataSet) {
+    if (setDataSet) {
       setDataSet(result);
     }
   }
@@ -26,41 +25,44 @@ function AddListItem(props) {
       style={styles.addListItem}
       onPress={() => {
         const createdAt = new Date();
-        ref.add({
-          title: '',
-          start: null,
-          end: null,
-          achievement: false,
-          createdAt: createdAt,
-        })
+        ref
+          .add({
+            title: '',
+            start: null,
+            end: null,
+            achievement: false,
+            createdAt,
+          })
           .then(() => {
-              let id: string;
-              ref.orderBy("createdAt", "desc").limit(1).get().then(docs => {
-              docs.forEach(doc => {
-                id =doc.id;
-              })
-              array.push({
-                id,
-                title: '',
-              })
-              handleState(array)
-            })
+            let id: string;
+            ref
+              .orderBy('createdAt', 'desc')
+              .limit(1)
+              .get()
+              .then((docs) => {
+                docs.forEach((doc) => {
+                  id = doc.id;
+                });
+                array.push({
+                  id,
+                  title: '',
+                });
+                handleState(array);
+              });
           })
           .catch((error) => {
-            Alert.alert(error)
-          })
+            Alert.alert(error);
+          });
       }}
     >
       <View style={styles.addListItemInner}>
         <Icon name="Plus" size={20} color="#646464" />
         <View style={styles.addListItemTextContainer}>
-          <Text style={styles.addListItemText}>
-            リストを追加する
-          </Text>
+          <Text style={styles.addListItemText}>リストを追加する</Text>
         </View>
       </View>
     </TouchableOpacity>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

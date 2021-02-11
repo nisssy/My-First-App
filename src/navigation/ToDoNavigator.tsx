@@ -8,29 +8,35 @@ const Stack = createStackNavigator();
 
 function ToDoNavigator() {
   return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="ToDo"
-          component={ToDoScreen}
-          options={{headerStyle: {
+    <Stack.Navigator initialRouteName="ToDo">
+      <Stack.Screen
+        name="ToDo"
+        component={ToDoScreen}
+        options={{
+          headerStyle: {
             height: 0,
-          }}}
-        />
-        <Stack.Screen
-          name="ToDoEditor"
-          component={ToDoEditorScreen}
-          options={{headerStyle: {
+          },
+        }}
+      />
+      <Stack.Screen
+        name="ToDoEditor"
+        component={ToDoEditorScreen}
+        options={{
+          headerStyle: {
             height: 0,
-          }}}
-        />
-        <Stack.Screen
-          name="MilestoneEditor"
-          component={MilestoneEditorScreen}
-          options={{headerStyle: {
+          },
+        }}
+      />
+      <Stack.Screen
+        name="MilestoneEditor"
+        component={MilestoneEditorScreen}
+        options={{
+          headerStyle: {
             height: 0,
-          }}}
-        />
-      </Stack.Navigator>
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
