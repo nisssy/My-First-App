@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "My-Fist-App",
-    "slug": "My-Fist-App",
+    "name": "My-First-App",
+    "slug": "My-First-App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

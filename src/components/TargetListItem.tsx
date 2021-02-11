@@ -8,16 +8,24 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import Icon from './Icon';
-import Checkbox from './Checkbox';
+import CheckboxForTarget from './CheckboxForTarget';
 
 function TargetListItem(props) {
-  const { monthOrigin, dataSet } = props;
+  const {
+    monthOrigin,
+    dataSetForMonth,
+    dataSetForQuoter,
+    quoterAchievementRatio,
+  } = props;
   const [data, setData] = useState();
   const [text, setText] = useState();
+  const [id, setId] = useState(' ');
   const [checked, setChecked] = useState();
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
-  const ref = db.collection(`users/${currentUser?.uid}/target`).doc(data.id);
+  const ref = db
+    .collection(`users/${currentUser?.uid}/target/data/month`)
+    .doc(id);
 
   function handlePress() {
     ref
@@ -30,11 +38,14 @@ function TargetListItem(props) {
   }
 
   useEffect(() => {
-    if (typeof dataSet === 'undefined') return;
-    const newList = dataSet.filter((item) => item.month === monthOrigin);
+    if (typeof dataSetForMonth === 'undefined') return;
+    const newList = dataSetForMonth.filter(
+      (item) => item.month === monthOrigin
+    );
     setData(newList[0]);
-    setText(data.target);
-    setChecked(data.achievement);
+    setId(newList[0].id); // これがundefindedらしい
+    setText(newList[0].target);
+    setChecked(newList[0].achievement);
   }, []);
 
   return (
@@ -42,7 +53,7 @@ function TargetListItem(props) {
       <View style={styles.missionListItemLeft}>
         <Text style={styles.missionListItemMonth}>{monthOrigin}</Text>
         <View style={styles.checkboxContainer}>
-          <Checkbox
+          <CheckboxForTarget
             size={30}
             data={data}
             checked={checked}
@@ -70,7 +81,6 @@ function TargetListItem(props) {
             achievement: false,
           });
           setText('');
-          setChecked(false);
         }}
       >
         <Icon name="Delete" size={24} color="#ccc" />
