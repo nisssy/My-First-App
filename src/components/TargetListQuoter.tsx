@@ -1,11 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Alert, View, Text } from 'react-native';
-import firebase from 'firebase';
+import { StyleSheet, Alert } from 'react-native';
 import TargetListItem from './TargetListItem';
-import QuoterContainerBottom from './QuoterContainerBottom';
-import QuoterContainerTop from './QuoterContainerTop';
-import Button from './Button';
+import QuoterListLabelBottom from './QuoterListLabelBottom';
+import QuoterListLabelTop from './QuoterListLabelTop';
 import QuoterAchievementRatioContext from '../contexts/QuoterAchievementRatioContext';
 
 function TargetListQuoter(props) {
@@ -40,23 +38,29 @@ ${quoter}の目標を全て達成！！`);
     <QuoterAchievementRatioContext.Provider
       value={{ quoterAchievementRatio, setQuoterAchievementRatio }}
     >
-      <QuoterContainerTop quoter={quoter} />
+      <QuoterListLabelTop quoter="1Q" />
       <TargetListItem
         monthOrigin="1月"
         dataSetForMonth={dataSetForMonth}
+        quoterAchievementRatio={quoterAchievementRatio}
+        dataSetForQuoter={dataSetForQuoter}
         value={value}
       />
       <TargetListItem
         monthOrigin="2月"
         dataSetForMonth={dataSetForMonth}
+        quoterAchievementRatio={quoterAchievementRatio}
+        dataSetForQuoter={dataSetForQuoter}
         value={value}
       />
       <TargetListItem
         monthOrigin="3月"
         dataSetForMonth={dataSetForMonth}
+        quoterAchievementRatio={quoterAchievementRatio}
+        dataSetForQuoter={dataSetForQuoter}
         value={value}
       />
-      <QuoterContainerBottom
+      <QuoterListLabelBottom
         quoter={quoter}
         dataSetForQuoter={dataSetForQuoter}
         quoterAchievementRatio={quoterAchievementRatio}

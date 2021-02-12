@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { variables } from '../lib/variables/stylingVariables';
 
-function QuoterContainerTop(props) {
+function QuoterLabelTop(props) {
   const { quoter } = props;
   return (
     <View style={styles.quoterContainerTop}>
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuoterContainerTop;
+export default QuoterLabelTop;

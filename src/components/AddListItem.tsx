@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import Icon from './Icon';
 
 function AddListItem(props) {
-  const { dataSet, setDataSet } = props;
+  const { flag, dataSet, setDataSet } = props;
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/task`);
@@ -20,43 +20,45 @@ function AddListItem(props) {
     }
   }
 
-  return (
-    <TouchableOpacity
-      style={styles.addListItem}
-      onPress={() => {
-        const createdAt = new Date();
+  function handlePress() {
+    const initialDate = flag
+      ? new Date()
+      : new Date(new Date().setMonth(new Date().getMonth() + 1));
+    ref
+      .add({
+        title: '',
+        start: initialDate,
+        end: initialDate,
+        achievement: false,
+        changed: false,
+        createdAt: new Date(),
+      })
+      .then(() => {
+        let id: string;
         ref
-          .add({
-            title: '',
-            start: null,
-            end: null,
-            achievement: false,
-            createdAt,
-          })
-          .then(() => {
-            let id: string;
-            ref
-              .orderBy('createdAt', 'desc')
-              .limit(1)
-              .get()
-              .then((docs) => {
-                docs.forEach((doc) => {
-                  id = doc.id;
-                });
-                array.push({
-                  id,
-                  title: '',
-                });
-                handleState(array);
-              });
-          })
-          .catch((error) => {
-            Alert.alert(error);
+          .orderBy('createdAt', 'desc')
+          .limit(1)
+          .get()
+          .then((docs) => {
+            docs.forEach((doc) => {
+              id = doc.id;
+            });
+            array.push({
+              id,
+              title: '',
+            });
+            handleState(array);
           });
-      }}
-    >
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      });
+  }
+
+  return (
+    <TouchableOpacity style={styles.addListItem} onPress={handlePress}>
       <View style={styles.addListItemInner}>
-        <Icon name="Plus" size={20} color="#646464" />
+        <Icon name="Plus" size={20} color="#ccc" />
         <View style={styles.addListItemTextContainer}>
           <Text style={styles.addListItemText}>リストを追加する</Text>
         </View>
@@ -68,9 +70,12 @@ function AddListItem(props) {
 const styles = StyleSheet.create({
   addListItem: {
     width: '100%',
-    height: 80,
+    height: 64,
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
   },
   addListItemInner: {
     justifyContent: 'center',
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
   },
   addListItemText: {
     fontSize: 20,
-    color: '#646464',
+    color: '#ccc',
   },
 });
 

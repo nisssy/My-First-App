@@ -11,10 +11,10 @@ import firebase from 'firebase';
 import { variables } from '../lib/variables/stylingVariables';
 import Icon from './Icon';
 
-function QuoterContainerBottom(props) {
+function QuoterLabelBottom(props) {
   const { quoter, dataSetForQuoter, quoterAchievementRatio } = props;
   const [grade, setGrade] = useState('');
-  const [text, setText] = useState('');
+  const [text, setText] = useState();
   const [dataSet, setDataSet] = useState({ id: 'id' });
   const [style, setStyle] = useState({});
   const { currentUser } = firebase.auth();
@@ -34,7 +34,7 @@ function QuoterContainerBottom(props) {
     if (typeof dataSetForQuoter === 'undefined') return;
     const newList = dataSetForQuoter.filter((item) => item.quoter === quoter);
     setDataSet(newList[0]);
-    setText(newList[0].target);
+    if (typeof newList[0].target !== 'undefined') setText(newList[0].target);
   }, [dataSetForQuoter]);
   useEffect(() => {
     if (quoterAchievementRatio === 0) {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   quoterTextContainer: {
-    marginLeft: 24,
+    marginLeft: 26,
     justifyContent: 'center',
   },
   quoterText: {
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuoterContainerBottom;
+export default QuoterLabelBottom;

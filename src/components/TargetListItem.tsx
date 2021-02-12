@@ -19,7 +19,7 @@ function TargetListItem(props) {
   } = props;
   const [data, setData] = useState();
   const [text, setText] = useState();
-  const [id, setId] = useState(' ');
+  const [id, setId] = useState('id');
   const [checked, setChecked] = useState();
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
@@ -42,10 +42,12 @@ function TargetListItem(props) {
     const newList = dataSetForMonth.filter(
       (item) => item.month === monthOrigin
     );
-    setData(newList[0]);
-    setId(newList[0].id); // これがundefindedらしい
-    setText(newList[0].target);
-    setChecked(newList[0].achievement);
+    if (typeof newList[0] !== 'undefined') {
+      setData(newList[0]);
+      setId(newList[0].id);
+      setText(newList[0].target);
+      setChecked(newList[0].achievement);
+    }
   }, []);
 
   return (
@@ -97,12 +99,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
     backgroundColor: '#fff',
+    paddingLeft: 0,
   },
   missionListItemLeft: {
     height: '100%',
     width: 50,
     marginTop: 24,
-    marginLeft: 16,
+    marginLeft: 19,
     alignItems: 'center',
   },
   missionListItemMonth: {

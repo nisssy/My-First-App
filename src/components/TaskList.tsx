@@ -4,11 +4,11 @@ import AddListItem from './AddListItem';
 import TaskListItem from './TaskListItem';
 
 function TaskList(props) {
-  const { list } = props;
+  const { list, flag } = props;
   const [dataSet, setDataSet] = useState(list);
   useEffect(() => {
     setDataSet(list);
-  }, list);
+  }, [list]);
 
   if (JSON.stringify(dataSet) !== undefined) {
     const list = dataSet.filter(
@@ -22,7 +22,7 @@ function TaskList(props) {
     });
     return (
       <View style={styles.taskList}>
-        {list.map((data, index) => (
+        {dataSet.map((data, index) => (
           <TaskListItem
             data={data}
             key={index}
@@ -30,13 +30,13 @@ function TaskList(props) {
             setDataSet={setDataSet}
           />
         ))}
-        <AddListItem dataSet={dataSet} setDataSet={setDataSet} />
+        <AddListItem flag={flag} dataSet={dataSet} setDataSet={setDataSet} />
       </View>
     );
   }
   return (
     <View style={styles.taskList}>
-      <AddListItem />
+      <AddListItem flag={flag} dataSet={dataSet} setDataSet={setDataSet} />
     </View>
   );
 }
