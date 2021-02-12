@@ -17,11 +17,15 @@ function MilestoneEditor(props) {
   const [left, setLeft] = useState(0);
 
   useEffect(() => {
+    const hour = 24;
+    const minutes = 60;
+    const seconds = 60;
+    const mm = 1000;
     setNow(new Date());
     const jstNow = utcToZonedTime(now, 'Asia/Tokyo').getTime();
     const jstEnd = utcToZonedTime(end, 'Asia/Tokyo').getTime();
     const leftTime = jstEnd - jstNow;
-    const leftDay = Math.floor(leftTime / 1000 / 60 / 60 / 24) + 1;
+    const leftDay = Math.ceil(leftTime / mm / seconds / minutes / hour);
     setLeft(leftDay);
 
     const endString = format(end, 'yyyy年MM月dd日');
@@ -36,6 +40,7 @@ function MilestoneEditor(props) {
       .update({
         start,
         end,
+        changed: true,
       })
       .then(() => {
         navigation.reset({ index: 0, routes: [{ name: 'Milestone' }] });

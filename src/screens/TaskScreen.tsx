@@ -82,7 +82,7 @@ function Task() {
         title="やること"
         fontSize={28}
       />
-      <DateRepresentor />
+      <DateRepresentor displayYear displayMonth />
       <ScrollView>
         <ListLabel label="今月" />
         <TaskList list={listThisMonth} flag={flagThisMonth} />

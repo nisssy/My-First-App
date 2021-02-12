@@ -40,7 +40,7 @@ function Milestone(props) {
         array.push({
           id: doc.id,
           title: doc.data().title,
-          createdAt: doc.data().createdAt,
+          changed: doc.data().changed,
           start,
           end,
           achievement: doc.data().achievement,
@@ -74,11 +74,11 @@ function Milestone(props) {
           title="マイルストーン"
           fontSize={26}
         />
-        <DateRepresentor />
+        <DateRepresentor displayYear displayMonth />
         <ScrollView>
-          <ListLabel />
+          <ListLabel label="今月" />
           <MilestoneList navigation={navigation} list={list} />
-          <ListLabel />
+          <ListLabel label="来月" />
         </ScrollView>
       </View>
     </TimeContext.Provider>

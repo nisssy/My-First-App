@@ -83,7 +83,7 @@ function ToDo(props) {
         await array.push({
           id: doc.id,
           title: doc.data().title,
-          createdAt: doc.data().createdAt,
+          changed: doc.data().changed,
           start,
           end,
           startForSort,
@@ -113,9 +113,9 @@ function ToDo(props) {
           title="ToDo"
           fontSize={30}
         />
-        <DateRepresentor />
+        <DateRepresentor displayYear displayMonth displayDate />
         <ScrollView>
-          <ListLabel />
+          <ListLabel label="やることリスト" />
           <MilestoneList navigation={navigation} list={list} />
           <View style={styles.todoTextContainer}>
             <Text style={styles.todoText}>その他やることメモ</Text>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   todoTextContainer: {
     marginLeft: 24,
-    marginTop: 16,
+    marginTop: 56,
   },
   todoText: {
     fontSize: 24,

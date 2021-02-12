@@ -9,7 +9,7 @@ function Target() {
   return (
     <View style={styles.container}>
       <Header displayLogout displayBack={false} title="目標" fontSize={30} />
-      <DateComponent />
+      <DateComponent displayYear />
       <TargetList />
     </View>
   );
