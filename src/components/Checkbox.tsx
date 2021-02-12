@@ -10,6 +10,9 @@ function Checkbox(props: any) {
   useEffect(() => {
     setChecked(checked);
   }, []);
+  useEffect(() => {
+    setChecked(data.achievement);
+  }, [data.achievement]);
 
   function handlePress() {
     const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);

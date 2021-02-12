@@ -41,7 +41,7 @@ function TimeContents(props) {
     navigation.navigate('MilestoneEditor', { data });
   }
 
-  if (data.end == null) {
+  if (data.changed === false) {
     return (
       <View style={styles.milestoneListItemTime}>
         <Button

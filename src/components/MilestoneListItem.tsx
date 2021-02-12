@@ -17,14 +17,14 @@ function MilestoneListItem(props) {
 
   return (
     <View style={styles.milestoneListItem}>
-      <TouchableOpacity style={styles.successButton}>
+      <View style={styles.successButton}>
         <Checkbox
           size={25}
           data={data}
           checked={checked}
           setChecked={setChecked}
         />
-      </TouchableOpacity>
+      </View>
       <View style={styles.milestoneListItemTextContainer}>
         <Text style={[styles.milestoneListItemText, style]}>{title}</Text>
         <TimeContents data={data} />
