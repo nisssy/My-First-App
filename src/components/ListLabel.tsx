@@ -3,11 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { variables } from '../lib/variables/stylingVariables';
 
-function MonthLabel() {
+function ListLabel(props) {
+  const { label } = props;
   return (
     <View style={styles.monthLabelContainer}>
       <View style={styles.monthLabelInner}>
-        <Text style={styles.monthLabel}>1月</Text>
+        <Text style={styles.monthLabel}>{label}</Text>
       </View>
     </View>
   );
@@ -20,9 +21,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   monthLabelInner: {
-    width: 50,
+    width: 200,
     marginLeft: 16,
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   monthLabel: {
     fontSize: 24,
@@ -30,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MonthLabel;
+export default ListLabel;

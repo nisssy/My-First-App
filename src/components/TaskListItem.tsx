@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, StyleSheet, TextInput } from 'react-native';
 import firebase from 'firebase';
 import Icon from './Icon';
 
 function TaskListItem(props) {
   const { data, dataSet, setDataSet } = props;
+  // console.log(data);
   const [text, setText] = useState(data.title);
+  const [id, setId] = useState('id');
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
-  const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
+  const ref = db.collection(`users/${currentUser?.uid}/task`).doc(id);
+
+  useEffect(() => {
+    if (typeof data.id !== 'undefined') {
+      setId(data.id);
+    }
+  }, [data]);
 
   function handlePress() {
     ref

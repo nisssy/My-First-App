@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
-import MonthLabel from '../components/MonthLabel';
+import ListLabel from '../components/ListLabel';
 import TimeContext from '../contexts/TimeContext';
 
 function Milestone(props) {
@@ -76,9 +76,9 @@ function Milestone(props) {
         />
         <DateRepresentor />
         <ScrollView>
-          <MonthLabel />
+          <ListLabel />
           <MilestoneList navigation={navigation} list={list} />
-          <MonthLabel />
+          <ListLabel />
         </ScrollView>
       </View>
     </TimeContext.Provider>

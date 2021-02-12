@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
-import MonthLabel from '../components/MonthLabel';
+import ListLabel from '../components/ListLabel';
 import { variables } from '../lib/variables/stylingVariables';
 import TimeContext from '../contexts/TimeContext';
 import Memo from '../components/Memo';
@@ -115,7 +115,7 @@ function ToDo(props) {
         />
         <DateRepresentor />
         <ScrollView>
-          <MonthLabel />
+          <ListLabel />
           <MilestoneList navigation={navigation} list={list} />
           <View style={styles.todoTextContainer}>
             <Text style={styles.todoText}>その他やることメモ</Text>
