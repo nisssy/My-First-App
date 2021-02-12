@@ -10,31 +10,38 @@ import {
 import firebase from 'firebase';
 import { variables } from '../lib/variables/stylingVariables';
 import Icon from './Icon';
+import { translateErrors } from '../lib/functions';
 
 function QuoterLabelBottom(props) {
   const { quoter, dataSetForQuoter, quoterAchievementRatio } = props;
   const [grade, setGrade] = useState('');
-  const [text, setText] = useState();
+  const [text, setText] = useState('');
   const [dataSet, setDataSet] = useState({ id: 'id' });
   const [style, setStyle] = useState({});
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
-  const ref = db
-    .collection(`users/${currentUser?.uid}/target/data/quoter`)
-    .doc(dataSet.id);
+
   function handlePress() {
+    const ref = db
+      .collection(`users/${currentUser?.uid}/target/data/quoter`)
+      .doc(dataSet.id);
     ref
       .update({
         target: text,
       })
       .then(() => {})
-      .catch((error) => {});
+      .catch((error) => {
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
+      });
   }
   useEffect(() => {
     if (typeof dataSetForQuoter === 'undefined') return;
     const newList = dataSetForQuoter.filter((item) => item.quoter === quoter);
     setDataSet(newList[0]);
-    if (typeof newList[0].target !== 'undefined') setText(newList[0].target);
+    if (typeof newList[0] !== 'undefined') {
+      setText(newList[0].target);
+    }
   }, [dataSetForQuoter]);
   useEffect(() => {
     if (quoterAchievementRatio === 0) {

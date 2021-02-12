@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { variables } from '../lib/variables/stylingVariables';
 import AddListItem from './AddListItem';
 import TaskListItem from './TaskListItem';
 
@@ -34,8 +35,12 @@ function TaskList(props) {
       </View>
     );
   }
+
   return (
     <View style={styles.taskList}>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>目標に向けてやることを追加しよう！</Text>
+      </View>
       <AddListItem flag={flag} dataSet={dataSet} setDataSet={setDataSet} />
     </View>
   );
@@ -87,6 +92,16 @@ const styles = StyleSheet.create({
   changeBorederColor: {
     borderWidth: 1,
     borderColor: '#fff',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 48,
+    color: '#646464',
+  },
+  textContainer: {
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    alignItems: 'center',
   },
 });
 

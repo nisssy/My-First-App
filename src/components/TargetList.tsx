@@ -4,11 +4,14 @@ import { StyleSheet, ScrollView, Alert, View, Text } from 'react-native';
 import firebase from 'firebase';
 import Button from './Button';
 import TargetListQuoter from './TargetListQuoter';
+import { translateErrors } from '../lib/functions';
+import Loading from './Loading';
 
 function TargetList() {
   const [dataSetForMonth, setDataSetForMonth] = useState([]);
   const [dataSetForQuoter, setDataSetForQuoter] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
 
@@ -34,7 +37,11 @@ function TargetList() {
               belong: doc.data().belong,
             });
           });
-          if (arrayMonth.length > 11) setDataSetForMonth(arrayMonth);
+          setIsLoading(false);
+          if (arrayMonth.length > 11) {
+            setDataSetForMonth(arrayMonth);
+            setInitialized(true);
+          }
         },
         () => {
           Alert.alert('データの読み込みに失敗');
@@ -59,26 +66,29 @@ function TargetList() {
           });
           if (arrayQuoter.length > 3) setDataSetForQuoter(arrayQuoter);
         },
-        () => {
-          Alert.alert('データの読み込みに失敗');
+        (error) => {
+          const errorMessage = translateErrors(error.code);
+          Alert.alert(errorMessage.error, errorMessage.description);
         }
       );
     }
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    if (dataSetForMonth.length > 11) {
-      setIsLoading(false);
-    }
-  }, [dataSetForMonth, dataSetForQuoter]);
-
   if (isLoading) {
+    return <Loading isLoading={isLoading} />;
+  }
+
+  if (!initialized) {
     return (
-      <View>
-        <Text>最初のインプットをしよう</Text>
+      <View style={styles.containerInit}>
+        <View style={styles.textInitContainer}>
+          <Text style={styles.textInit}>月ごとの目標を</Text>
+          <Text style={styles.textInit}>決めよう！</Text>
+        </View>
+
         <Button
-          value="スタート"
+          value="はじめる"
           onPress={() => {
             for (let i = 1; i <= 12; i++) {
               const belong =
@@ -89,14 +99,12 @@ function TargetList() {
                     : i > 6 && i <= 9
                       ? '3Q'
                       : '4Q';
-              refForMonth
-                .add({
-                  month: `${i}月`,
-                  target: '',
-                  achievement: false,
-                  belongQuoter: belong,
-                })
-                .then(() => setIsLoading(false));
+              refForMonth.add({
+                month: `${i}月`,
+                target: '',
+                achievement: false,
+                belongQuoter: belong,
+              });
             }
             for (let i = 1; i <= 4; i++) {
               refForQuoter
@@ -104,7 +112,7 @@ function TargetList() {
                   quoter: `${i}Q`,
                   target: '',
                 })
-                .then(() => setIsLoading(false));
+                .then(() => setInitialized(true));
             }
           }}
         />
@@ -126,6 +134,21 @@ function TargetList() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
+  },
+  containerInit: {
+    backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 150,
+  },
+  textInit: {
+    fontSize: 20,
+    lineHeight: 32,
+  },
+  textInitContainer: {
+    marginBottom: 24,
+    alignItems: 'center',
   },
 });
 

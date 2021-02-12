@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
+import { Alert } from 'react-native';
+import { translateErrors } from '../lib/functions';
 
 function Checkbox(props: any) {
   const { data, size, checked, setChecked } = props;
@@ -23,8 +25,8 @@ function Checkbox(props: any) {
           achievement: false,
         })
         .then(() => {})
-        .catch((error) => {
-          console.log(error);
+        .catch((r) => {
+          console.log(r);
         });
     } else {
       setChecked(true);
@@ -34,7 +36,8 @@ function Checkbox(props: any) {
         })
         .then(() => {})
         .catch((error) => {
-          console.log(error);
+          const errorMessage = translateErrors(error.code);
+          Alert.alert(errorMessage.error, errorMessage.description);
         });
     }
   }

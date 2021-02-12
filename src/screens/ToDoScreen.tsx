@@ -116,7 +116,20 @@ function ToDo(props) {
         <DateRepresentor displayYear displayMonth displayDate />
         <ScrollView>
           <ListLabel label="やることリスト" />
-          <MilestoneList navigation={navigation} list={list} />
+          {list.length === 0 && (
+            <View style={styles.messageContainer}>
+              <Text style={styles.message}>
+                Milestoneタブで〆切を設定すると
+              </Text>
+              <Text style={styles.message}>
+                今日やることがここに表示されます！
+              </Text>
+            </View>
+          )}
+          {list.length !== 0 && (
+            <MilestoneList navigation={navigation} list={list} />
+          )}
+
           <View style={styles.todoTextContainer}>
             <Text style={styles.todoText}>その他やることメモ</Text>
             <CircleButton
@@ -162,6 +175,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 12,
     right: 40,
+  },
+  messageContainer: {
+    height: 64,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  message: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#646464',
   },
 });
 

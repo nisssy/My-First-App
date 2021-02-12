@@ -4,6 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { variables } from '../lib/variables/stylingVariables';
+import { translateErrors } from '../lib/functions';
 
 function Header(props: any) {
   const { displayLogout, displayBack, title, fontSize } = props;
@@ -22,7 +23,8 @@ function Header(props: any) {
         navigation.reset({ index: 0, routes: [{ name: 'LogIn' }] });
       })
       .catch((error) => {
-        Alert.alert('ログアウトに失敗しました');
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
       });
   }
 

@@ -10,16 +10,21 @@ import {
 import firebase from 'firebase';
 import { shape } from 'prop-types';
 import Button from '../components/Button';
+import { translateErrors } from '../lib/functions';
+import Loading from '../components/Loading';
 
 function LogInScreen(props) {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+      } else {
+        setIsLoading(false);
       }
     });
     return () => {
@@ -28,18 +33,24 @@ function LogInScreen(props) {
   }, []);
 
   function handlePress() {
+    setIsLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
       })
-      .catch(() => {
-        Alert.alert('メールアドレスまたはパスワードが違います。');
+      .catch((error) => {
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
+      })
+      .then(() => {
+        setIsLoading(false);
       });
   }
   return (
     <View style={styles.container}>
+      <Loading isLoading={isLoading} />
       <View style={styles.inner}>
         <View>
           <Text style={styles.title}>ログイン画面</Text>
