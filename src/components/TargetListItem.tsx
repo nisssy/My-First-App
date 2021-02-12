@@ -5,18 +5,15 @@ import {
   Text,
   StyleSheet,
   TextInput,
+  Alert,
 } from 'react-native';
 import firebase from 'firebase';
 import Icon from './Icon';
 import CheckboxForTarget from './CheckboxForTarget';
+import { translateErrors } from '../lib/functions';
 
 function TargetListItem(props) {
-  const {
-    monthOrigin,
-    dataSetForMonth,
-    dataSetForQuoter,
-    quoterAchievementRatio,
-  } = props;
+  const { monthOrigin, dataSetForMonth } = props;
   const [data, setData] = useState();
   const [text, setText] = useState();
   const [id, setId] = useState('id');
@@ -34,7 +31,10 @@ function TargetListItem(props) {
         target: text,
       })
       .then(() => {})
-      .catch((error) => {});
+      .catch((error) => {
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
+      });
   }
 
   useEffect(() => {

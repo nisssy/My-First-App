@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native';
 import firebase from 'firebase';
 import Icon from './Icon';
+import { translateErrors } from '../lib/functions';
 
 function AddListItem(props) {
   const { flag, dataSet, setDataSet } = props;
@@ -51,7 +52,8 @@ function AddListItem(props) {
           });
       })
       .catch((error) => {
-        Alert.alert(error);
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
       });
   }
 

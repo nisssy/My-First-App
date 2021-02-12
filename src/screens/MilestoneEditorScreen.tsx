@@ -32,7 +32,6 @@ function MilestoneEditor(props) {
     setDue(endString);
   }, [end]);
   function handlePress() {
-    // firebaseの更新
     const { currentUser } = firebase.auth();
     const db = firebase.firestore();
     const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);

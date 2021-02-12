@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, StyleSheet, TextInput } from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  TextInput,
+  Alert,
+} from 'react-native';
 import firebase from 'firebase';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
+import { translateErrors } from '../lib/functions';
 
 function TaskListItem(props) {
   const { data, dataSet, setDataSet } = props;
@@ -26,7 +33,8 @@ function TaskListItem(props) {
       })
       .then(() => {})
       .catch((error) => {
-        console.log(error);
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
       });
   }
   function handlePressDelete() {
@@ -38,8 +46,8 @@ function TaskListItem(props) {
         });
         setDataSet(newData);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((r) => {
+        console.log(r);
       });
     // }
   }

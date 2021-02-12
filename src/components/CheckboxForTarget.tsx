@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
+import { Alert } from 'react-native';
 import QuoterAchievementRatioContext from '../contexts/QuoterAchievementRatioContext';
+import { translateErrors } from '../lib/functions';
 
 function CheckboxForTarget(props: any) {
   const { data, size, checked, setChecked } = props;
@@ -44,7 +46,8 @@ function CheckboxForTarget(props: any) {
         })
         .then(() => {})
         .catch((error) => {
-          console.log(error);
+          const errorMessage = translateErrors(error.code);
+          Alert.alert(errorMessage.error, errorMessage.description);
         });
     }
   }
