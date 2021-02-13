@@ -22,26 +22,19 @@ const TargetListQuoter: React.FC<Props> = ({
   const firstQuoterMonth = 1 + (quoter - 1) * 3;
   const secondQuoterMonth = firstQuoterMonth + 1;
   const thirdQuoterMonth = secondQuoterMonth + 1;
-  const [quoterAchievementRatio, setQuoterAchievementRatio] = useState<number>(
-    0
-  );
+  // eslint-disable-next-line prettier/prettier
+  const [quoterAchievementRatio, setQuoterAchievementRatio] = useState<number | undefined>(0);
 
   useEffect(() => {
-    const result = dataSetForMonth.filter((item) => {
-      return (
-        item.month === `${firstQuoterMonth}月` ||
-        `${secondQuoterMonth}月` ||
-        `${thirdQuoterMonth}月`
-      );
-    });
-    let initialAchievementRatio = 0;
-    result.forEach((item) => {
-      item.achievement
-        ? (initialAchievementRatio += 1)
-        : (initialAchievementRatio += 0);
-    });
-    setQuoterAchievementRatio(initialAchievementRatio);
-  }, []);
+    if (typeof dataSetForQuoter[0] !== 'undefined') {
+      const initialAchievementRatio = dataSetForQuoter
+        .filter((item) => {
+          return item.quoter === `${quoter}Q`;
+        })
+        .shift();
+      setQuoterAchievementRatio(initialAchievementRatio?.grade);
+    }
+  }, [dataSetForQuoter]);
 
   useEffect(() => {
     if (quoterAchievementRatio === 3) {

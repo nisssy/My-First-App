@@ -24,7 +24,7 @@ const QuoterLabelBottom = ({
   dataSetForQuoter,
   quoterAchievementRatio,
 }: Props) => {
-  const [grade, setGrade] = useState<string>('');
+  const [grade, setGrade] = useState();
   const [text, setText] = useState<string>('');
   const [dataSet, setDataSet] = useState<any>({ id: 'id' });
   const [style, setStyle] = useState<object>({});
@@ -55,7 +55,9 @@ const QuoterLabelBottom = ({
 
   useEffect(() => {
     if (typeof dataSetForQuoter === 'undefined') return;
-    const newList = dataSetForQuoter.filter((item) => item.quoter === quoter);
+    const newList = dataSetForQuoter.filter(
+      (item) => item.quoter === `${quoter}Q`
+    );
     setDataSet(newList[0]);
     if (typeof newList[0] !== 'undefined') {
       setText(newList[0].target);
@@ -63,6 +65,12 @@ const QuoterLabelBottom = ({
   }, [dataSetForQuoter]);
 
   useEffect(() => {
+    ref
+      .update({
+        grade: quoterAchievementRatio,
+      })
+      .then()
+      .catch((error) => {});
     if (quoterAchievementRatio === 0) {
       setGrade('C');
       setStyle({ color: variables.mainColor });

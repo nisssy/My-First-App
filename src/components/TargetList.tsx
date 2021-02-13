@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, Alert, View, Text } from 'react-native';
 import firebase from 'firebase';
+import InputScrollView from 'react-native-input-scroll-view';
 import Button from './Button';
 import TargetListQuoter from './TargetListQuoter';
 import { translateErrors } from '../utils/functions';
@@ -36,7 +37,7 @@ const TargetList: React.FC = () => {
               month: doc.data().month,
               target: doc.data().target,
               achievement: doc.data().achievement,
-              belong: doc.data().belong,
+              belongQuoter: doc.data().belongQuoter,
             });
           });
           setIsLoading(false);
@@ -64,6 +65,7 @@ const TargetList: React.FC = () => {
               id: doc.id,
               quoter: doc.data().quoter,
               target: doc.data().target,
+              grade: doc.data().grade,
             });
           });
           if (arrayQuoter.length > 3) setDataSetForQuoter(arrayQuoter);
@@ -113,6 +115,7 @@ const TargetList: React.FC = () => {
                 .add({
                   quoter: `${i}Q`,
                   target: '',
+                  grade: 0,
                 })
                 .then(() => setInitialized(true));
             }
@@ -123,32 +126,39 @@ const TargetList: React.FC = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <TargetListQuoter
-        dataSetForMonth={dataSetForMonth}
-        dataSetForQuoter={dataSetForQuoter}
-        quoter={1}
-      />
-      <TargetListQuoter
-        dataSetForMonth={dataSetForMonth}
-        dataSetForQuoter={dataSetForQuoter}
-        quoter={2}
-      />
-      <TargetListQuoter
-        dataSetForMonth={dataSetForMonth}
-        dataSetForQuoter={dataSetForQuoter}
-        quoter={3}
-      />
-      <TargetListQuoter
-        dataSetForMonth={dataSetForMonth}
-        dataSetForQuoter={dataSetForQuoter}
-        quoter={4}
-      />
-    </ScrollView>
+    <InputScrollView>
+      <View style={styles.container}>
+        <TargetListQuoter
+          dataSetForMonth={dataSetForMonth}
+          dataSetForQuoter={dataSetForQuoter}
+          quoter={1}
+        />
+        <TargetListQuoter
+          dataSetForMonth={dataSetForMonth}
+          dataSetForQuoter={dataSetForQuoter}
+          quoter={2}
+        />
+        <TargetListQuoter
+          dataSetForMonth={dataSetForMonth}
+          dataSetForQuoter={dataSetForQuoter}
+          quoter={3}
+        />
+        <TargetListQuoter
+          dataSetForMonth={dataSetForMonth}
+          dataSetForQuoter={dataSetForQuoter}
+          quoter={4}
+        />
+        <View style={styles.footer} />
+      </View>
+    </InputScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  footer: {
+    backgroundColor: '#fff',
+    height: 80,
+  },
   container: {
     backgroundColor: '#fff',
     flex: 1,

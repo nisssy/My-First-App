@@ -3,10 +3,11 @@ export type TargetMonth = {
   month: string;
   target: string;
   achievement: boolean;
-  belong: string;
+  belongQuoter: string;
 };
 export type TargetQuoter = {
   id: string;
-  quoter: number;
+  quoter: string;
   target: string;
+  grade: number;
 };
