@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "My-First-App",
-    "slug": "My-First-App",
+    "name": "やる気メモ",
+    "slug": "やる気メモ",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -17,12 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.kazu.yaruki-memo",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.kazu.yaruki-memo",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/AdaptiveIconForeground.png",
+        "backgroundImage": "./assets/AdaptiveIconBackGround.png"
       }
     },
     "web": {
