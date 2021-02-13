@@ -1,9 +1,16 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { View } from 'react-native';
+import { MilestoneTabParamList } from '../types/navigation';
+import { TaskForMilestone } from '../types/task';
 import MilestoneListItem from './MilestoneListItem';
 
-function MilestoneList(props) {
-  const { navigation, list } = props;
+type Props = {
+  navigation: StackNavigationProp<MilestoneTabParamList, 'Milestone'>;
+  list: TaskForMilestone[];
+};
+
+const MilestoneList: React.FC<Props> = ({ navigation, list }: Props) => {
   const newList = list.filter(
     (element, index, self) =>
       self.findIndex((e) => e.id === element.id) === index
@@ -16,6 +23,6 @@ function MilestoneList(props) {
       ))}
     </View>
   );
-}
+};
 
 export default MilestoneList;

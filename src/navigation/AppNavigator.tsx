@@ -4,11 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import MainTabNavigator from './MainTabNavigator';
 import LogInScreen from '../screens/LogInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
 
 const Stack = createStackNavigator();
 
-function AppNavigator() {
+const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -32,6 +32,6 @@ function AppNavigator() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default AppNavigator;

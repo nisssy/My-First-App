@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, Alert, View, Text } from 'react-native';
 import firebase from 'firebase';
 import Button from './Button';
 import TargetListQuoter from './TargetListQuoter';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
 import Loading from './Loading';
+import { TargetMonth, TargetQuoter } from '../types/target';
 
-function TargetList() {
-  const [dataSetForMonth, setDataSetForMonth] = useState([]);
-  const [dataSetForQuoter, setDataSetForQuoter] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
+const TargetList: React.FC = () => {
+  const [dataSetForMonth, setDataSetForMonth] = useState<TargetMonth[]>([]);
+  const [dataSetForQuoter, setDataSetForQuoter] = useState<TargetQuoter[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [initialized, setInitialized] = useState<boolean>(false);
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
 
@@ -25,7 +27,7 @@ function TargetList() {
   useEffect(() => {
     let unsubscribe = () => {};
     if (currentUser) {
-      const arrayMonth = [];
+      const arrayMonth: TargetMonth[] = [];
       unsubscribe = refForMonth.onSnapshot(
         (snapshot) => {
           snapshot.forEach((doc) => {
@@ -54,7 +56,7 @@ function TargetList() {
   useEffect(() => {
     let unsubscribe = () => {};
     if (currentUser) {
-      const arrayQuoter = [];
+      const arrayQuoter: TargetQuoter[] = [];
       unsubscribe = refForQuoter.onSnapshot(
         (snapshot) => {
           snapshot.forEach((doc) => {
@@ -67,7 +69,7 @@ function TargetList() {
           if (arrayQuoter.length > 3) setDataSetForQuoter(arrayQuoter);
         },
         (error) => {
-          const errorMessage = translateErrors(error.code);
+          const errorMessage = translateErrors(error);
           Alert.alert(errorMessage.error, errorMessage.description);
         }
       );
@@ -86,19 +88,19 @@ function TargetList() {
           <Text style={styles.textInit}>月ごとの目標を</Text>
           <Text style={styles.textInit}>決めよう！</Text>
         </View>
-
         <Button
           value="はじめる"
           onPress={() => {
-            for (let i = 1; i <= 12; i++) {
+            for (let i = 1; i <= 12; i += 1) {
               const belong =
                 i > 0 && i <= 3
                   ? '1Q'
                   : i > 3 && i <= 6
-                    ? '2Q'
-                    : i > 6 && i <= 9
-                      ? '3Q'
-                      : '4Q';
+                  ? '2Q'
+                  : i > 6 && i <= 9
+                  ? '3Q'
+                  : '4Q';
+
               refForMonth.add({
                 month: `${i}月`,
                 target: '',
@@ -106,7 +108,7 @@ function TargetList() {
                 belongQuoter: belong,
               });
             }
-            for (let i = 1; i <= 4; i++) {
+            for (let i = 1; i <= 4; i += 1) {
               refForQuoter
                 .add({
                   quoter: `${i}Q`,
@@ -125,15 +127,31 @@ function TargetList() {
       <TargetListQuoter
         dataSetForMonth={dataSetForMonth}
         dataSetForQuoter={dataSetForQuoter}
-        quoter="1Q"
+        quoter={1}
+      />
+      <TargetListQuoter
+        dataSetForMonth={dataSetForMonth}
+        dataSetForQuoter={dataSetForQuoter}
+        quoter={2}
+      />
+      <TargetListQuoter
+        dataSetForMonth={dataSetForMonth}
+        dataSetForQuoter={dataSetForQuoter}
+        quoter={3}
+      />
+      <TargetListQuoter
+        dataSetForMonth={dataSetForMonth}
+        dataSetForQuoter={dataSetForQuoter}
+        quoter={4}
       />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
+    flex: 1,
   },
   containerInit: {
     backgroundColor: '#fff',

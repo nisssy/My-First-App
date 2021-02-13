@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 
 import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import firebase from 'firebase';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Header from '../components/Header';
 import KeyboardSafeView from '../components/KeyboardSafeView';
 import CircleButton from '../components/CircleButton';
+import { ToDoTabParamList } from '../types/navigation';
 
-function ToDoEditor(props) {
-  const [text, setText] = useState();
-  const { navigation } = props;
+type Props = {
+  navigation: StackNavigationProp<ToDoTabParamList, 'ToDoEditor'>;
+};
 
-  function handlePress() {
+const ToDoEditor: React.FC<Props> = ({ navigation }: Props) => {
+  const [text, setText] = useState<string>();
+
+  const handlePress = () => {
     if (text === undefined) return navigation.goBack();
     const { currentUser } = firebase.auth();
     navigation.reset({ index: 0, routes: [{ name: 'ToDo' }] });
@@ -30,17 +35,11 @@ function ToDoEditor(props) {
       .catch((error) => {
         Alert.alert(error.code);
       });
-  }
+  };
 
   return (
     <KeyboardSafeView style={styles.container}>
-      <Header
-        displayLogout={false}
-        displayBack
-        title="ToDo"
-        fontSize={30}
-        navigation={navigation}
-      />
+      <Header displayLogout={false} displayBack title="ToDo" fontSize={30} />
       <View style={styles.textContainer}>
         <TextInput
           value={text}
@@ -57,7 +56,7 @@ function ToDoEditor(props) {
       />
     </KeyboardSafeView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

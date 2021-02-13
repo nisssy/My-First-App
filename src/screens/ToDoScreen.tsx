@@ -2,37 +2,42 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import firebase from 'firebase';
+import { StackNavigationProp } from '@react-navigation/stack';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
 import ListLabel from '../components/ListLabel';
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
 import TimeContext from '../contexts/TimeContext';
 import Memo from '../components/Memo';
 import CircleButton from '../components/CircleButton';
+import { ToDoTabParamList } from '../types/navigation';
+import { TaskForMilestone, TaskForToDo } from '../types/task';
 
-function ToDo(props) {
-  const { navigation } = props;
-  const [now, setNow] = useState(new Date());
-  const [list, setList] = useState([]);
+type Props = {
+  navigation: StackNavigationProp<ToDoTabParamList, 'ToDo'>;
+};
+
+const ToDo: React.FC<Props> = ({ navigation }: Props) => {
+  const [now, setNow] = useState<Date>(new Date());
+  const [list, setList] = useState<TaskForMilestone[]>([]);
+  const [memo, setMemo] = useState<any>();
   const todoScreenIsFocused = useIsFocused();
-  const [isLoading, setIsLoading] = useState([]);
-  const [data, setData] = useState([]);
 
-  async function asyncFilter(array: [], today) {
+  const asyncFilter = (array: TaskForToDo[], today: number) => {
     const filteredList = array.filter(
       (element, index, self) =>
         self.findIndex((e) => e.id === element.id) === index
     );
-    const result = filteredList.filter((item) => {
+    const result: any = filteredList.filter((item) => {
       return (
-        item.startForSort === today ||
-        item.endForSort === today ||
-        (item.startForSort < today && item.endForSort > today)
+        item.startFilter === today ||
+        item.endFilter === today ||
+        (item.startFilter < today && item.endFilter > today)
       );
     });
     if (typeof list !== 'undefined') setList(result);
-  }
+  };
 
   useEffect(() => {
     const { currentUser } = firebase.auth();
@@ -40,18 +45,12 @@ function ToDo(props) {
     if (currentUser) {
       const db = firebase.firestore();
       const ref = db.collection(`users/${currentUser?.uid}/memo`).doc('memo');
-      ref.get().then((doc) => {
-        setData(doc.data());
+      ref.get().then((doc): any => {
+        setMemo(doc.data());
       });
     }
     return unsubscribe;
   }, []);
-
-  useEffect(() => {
-    if (typeof data !== 'undefined') {
-      setIsLoading(false);
-    }
-  }, [data]);
 
   useEffect(() => {
     const hour = 24;
@@ -70,11 +69,11 @@ function ToDo(props) {
       snapshot.forEach(async (doc) => {
         const checkStart = doc.data().start;
         const checkEnd = doc.data().start;
-        const startForSort =
+        const startFilter =
           checkStart !== null
             ? Math.floor(doc.data().start.seconds / seconds / minutes / hour)
             : null;
-        const endForSort =
+        const endFilter =
           checkStart !== null
             ? Math.floor(doc.data().end.seconds / seconds / minutes / hour)
             : null;
@@ -86,8 +85,8 @@ function ToDo(props) {
           changed: doc.data().changed,
           start,
           end,
-          startForSort,
-          endForSort,
+          startFilter,
+          endFilter,
           achievement: doc.data().achievement,
         });
       });
@@ -95,14 +94,6 @@ function ToDo(props) {
     });
     return unsubscribe;
   }, [todoScreenIsFocused]);
-
-  if (isLoading) {
-    return (
-      <View>
-        <Text>Nowloading</Text>
-      </View>
-    );
-  }
 
   return (
     <TimeContext.Provider value={now}>
@@ -139,13 +130,13 @@ function ToDo(props) {
             />
           </View>
           <View style={styles.ToDoMemo}>
-            <Memo data={data} />
+            <Memo data={memo} />
           </View>
         </ScrollView>
       </View>
     </TimeContext.Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

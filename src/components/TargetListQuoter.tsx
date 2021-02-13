@@ -1,22 +1,37 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import TargetListItem from './TargetListItem';
 import QuoterListLabelBottom from './QuoterListLabelBottom';
 import QuoterListLabelTop from './QuoterListLabelTop';
 import QuoterAchievementRatioContext from '../contexts/QuoterAchievementRatioContext';
+import { TargetMonth, TargetQuoter } from '../types/target';
 
-function TargetListQuoter(props) {
-  const { quoter, dataSetForMonth, dataSetForQuoter } = props;
-  const [quoterAchievementRatio, setQuoterAchievementRatio] = useState(0);
-  const value = { quoterAchievementRatio, setQuoterAchievementRatio };
-  const firstQuoterMonth = `${1 + (quoter - 1) * 3}月`;
-  const secondQuoterMonth = `${firstQuoterMonth + 1}月`;
-  const thirdQuoterMonth = `${secondQuoterMonth + 1}月`;
+type Props = {
+  quoter: number;
+  dataSetForMonth: TargetMonth[];
+  dataSetForQuoter: TargetQuoter[];
+};
+
+const TargetListQuoter: React.FC<Props> = ({
+  quoter,
+  dataSetForMonth,
+  dataSetForQuoter,
+}: Props) => {
+  const firstQuoterMonth = 1 + (quoter - 1) * 3;
+  const secondQuoterMonth = firstQuoterMonth + 1;
+  const thirdQuoterMonth = secondQuoterMonth + 1;
+  const [quoterAchievementRatio, setQuoterAchievementRatio] = useState<number>(
+    0
+  );
+
   useEffect(() => {
     const result = dataSetForMonth.filter((item) => {
       return (
-        item.month === firstQuoterMonth || secondQuoterMonth || thirdQuoterMonth
+        item.month === `${firstQuoterMonth}月` ||
+        `${secondQuoterMonth}月` ||
+        `${thirdQuoterMonth}月`
       );
     });
     let initialAchievementRatio = 0;
@@ -27,38 +42,29 @@ function TargetListQuoter(props) {
     });
     setQuoterAchievementRatio(initialAchievementRatio);
   }, []);
+
   useEffect(() => {
     if (quoterAchievementRatio === 3) {
       Alert.alert(`🎉🎉おめでとう！🎉🎉
 ${quoter}の目標を全て達成！！`);
     }
   }, [quoterAchievementRatio]);
-
   return (
     <QuoterAchievementRatioContext.Provider
       value={{ quoterAchievementRatio, setQuoterAchievementRatio }}
     >
-      <QuoterListLabelTop quoter="1Q" />
+      <QuoterListLabelTop quoter={`${quoter}Q`} />
       <TargetListItem
-        monthOrigin="1月"
+        monthOrigin={`${firstQuoterMonth}月`}
         dataSetForMonth={dataSetForMonth}
-        quoterAchievementRatio={quoterAchievementRatio}
-        dataSetForQuoter={dataSetForQuoter}
-        value={value}
       />
       <TargetListItem
-        monthOrigin="2月"
+        monthOrigin={`${secondQuoterMonth}月`}
         dataSetForMonth={dataSetForMonth}
-        quoterAchievementRatio={quoterAchievementRatio}
-        dataSetForQuoter={dataSetForQuoter}
-        value={value}
       />
       <TargetListItem
-        monthOrigin="3月"
+        monthOrigin={`${thirdQuoterMonth}月`}
         dataSetForMonth={dataSetForMonth}
-        quoterAchievementRatio={quoterAchievementRatio}
-        dataSetForQuoter={dataSetForQuoter}
-        value={value}
       />
       <QuoterListLabelBottom
         quoter={quoter}
@@ -67,12 +73,6 @@ ${quoter}の目標を全て達成！！`);
       />
     </QuoterAchievementRatioContext.Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-});
+};
 
 export default TargetListQuoter;

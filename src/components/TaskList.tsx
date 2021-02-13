@@ -1,32 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { variables } from '../lib/variables/stylingVariables';
+import { Task } from '../types/task';
 import AddListItem from './AddListItem';
 import TaskListItem from './TaskListItem';
 
-function TaskList(props) {
-  const { list, flag } = props;
-  const [dataSet, setDataSet] = useState(list);
+type Props = {
+  list: Task[] | undefined;
+  flag: boolean;
+};
+
+const TaskList = ({ list, flag }: Props) => {
+  const [dataSet, setDataSet] = useState<Task[] | undefined>(list);
   useEffect(() => {
     setDataSet(list);
   }, [list]);
 
-  if (JSON.stringify(dataSet) !== undefined) {
-    const list = dataSet.filter(
+  if (typeof dataSet !== 'undefined') {
+    const array = dataSet.filter(
       (element, index, self) =>
         self.findIndex((e) => e.id === element.id) === index
     );
-    list.sort(function (a, b) {
+    array.sort((a, b) => {
       if (a.createdAt < b.createdAt) return 1;
       if (a.createdAt > b.createdAt) return -1;
       return 0;
     });
     return (
       <View style={styles.taskList}>
-        {dataSet.map((data, index) => (
+        {dataSet.map((data) => (
           <TaskListItem
             data={data}
-            key={index}
+            key={data.id}
             dataSet={dataSet}
             setDataSet={setDataSet}
           />
@@ -44,7 +48,7 @@ function TaskList(props) {
       <AddListItem flag={flag} dataSet={dataSet} setDataSet={setDataSet} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   taskList: {},

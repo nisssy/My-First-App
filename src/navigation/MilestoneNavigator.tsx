@@ -5,7 +5,7 @@ import MilestoneEditorScreen from '../screens/MilestoneEditorScreen';
 
 const Stack = createStackNavigator();
 
-function MilestoneNavigator() {
+const MilestoneNavigator: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName="Milestone">
       <Stack.Screen
@@ -28,6 +28,6 @@ function MilestoneNavigator() {
       />
     </Stack.Navigator>
   );
-}
+};
 
 export default MilestoneNavigator;

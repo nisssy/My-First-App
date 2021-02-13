@@ -5,15 +5,15 @@ import Header from '../components/Header';
 
 import TargetList from '../components/TargetList';
 
-function Target() {
+const TargetScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Header displayLogout displayBack={false} title="目標" fontSize={30} />
-      <DateComponent displayYear />
+      <DateComponent displayYear displayMonth={false} displayDate={false} />
       <TargetList />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Target;
+export default TargetScreen;

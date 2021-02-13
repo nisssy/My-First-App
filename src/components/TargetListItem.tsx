@@ -10,21 +10,27 @@ import {
 import firebase from 'firebase';
 import Icon from './Icon';
 import CheckboxForTarget from './CheckboxForTarget';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
+import { TargetMonth } from '../types/target';
 
-function TargetListItem(props) {
-  const { monthOrigin, dataSetForMonth } = props;
-  const [data, setData] = useState();
-  const [text, setText] = useState();
-  const [id, setId] = useState('id');
-  const [checked, setChecked] = useState();
+type Props = {
+  monthOrigin: string;
+  dataSetForMonth: TargetMonth[];
+};
+
+function TargetListItem({ monthOrigin, dataSetForMonth }: Props) {
+  const [data, setData] = useState<TargetMonth>();
+  const [text, setText] = useState<string>();
+  const [id, setId] = useState<string>('id');
+  const [checked, setChecked] = useState<boolean>();
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
+
   const ref = db
     .collection(`users/${currentUser?.uid}/target/data/month`)
     .doc(id);
 
-  function handlePress() {
+  const handlePress: () => void = () => {
     ref
       .update({
         month: monthOrigin,
@@ -35,7 +41,7 @@ function TargetListItem(props) {
         const errorMessage = translateErrors(error.code);
         Alert.alert(errorMessage.error, errorMessage.description);
       });
-  }
+  };
 
   useEffect(() => {
     if (typeof dataSetForMonth === 'undefined') return;

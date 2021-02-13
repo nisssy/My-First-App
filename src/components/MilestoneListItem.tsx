@@ -1,19 +1,26 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { MilestoneTabParamList } from '../types/navigation';
+import { TaskForMilestone } from '../types/task';
 import Checkbox from './Checkbox';
 import Icon from './Icon';
 import TimeContents from './TimeContents';
 
-function MilestoneListItem(props) {
-  const { navigation, data } = props;
-  const [checked, setChecked] = useState(data.achievement);
+type Props = {
+  navigation: StackNavigationProp<MilestoneTabParamList, 'Milestone'>;
+  data: TaskForMilestone;
+};
+
+const MilestoneListItem: React.FC<Props> = ({ navigation, data }: Props) => {
   const defaultMessage = '(タイトルが未設定です)';
   const title = data.title === '' ? defaultMessage : data.title;
   const style = title === defaultMessage ? { color: '#646464' } : {};
+  const [checked, setChecked] = useState<boolean>(data.achievement);
 
-  function handlePress() {
+  const handlePress: () => void = () => {
     navigation.navigate('MilestoneEditor', { data });
-  }
+  };
 
   return (
     <View style={styles.milestoneListItem}>
@@ -34,7 +41,7 @@ function MilestoneListItem(props) {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   milestoneListItem: {

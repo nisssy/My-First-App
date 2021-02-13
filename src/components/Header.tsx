@@ -3,16 +3,26 @@ import firebase from 'firebase';
 import { Feather } from '@expo/vector-icons';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { variables } from '../lib/variables/stylingVariables';
-import { translateErrors } from '../lib/functions';
+import { variables } from '../utils/variables/stylingVariables';
+import { translateErrors } from '../utils/functions';
 
-function Header(props: any) {
-  const { displayLogout, displayBack, title, fontSize } = props;
+type Props = {
+  displayLogout: boolean;
+  displayBack: boolean;
+  title: string;
+  fontSize: number;
+};
+
+const Header: React.FC<Props> = ({
+  displayLogout,
+  displayBack,
+  title,
+  fontSize,
+}: Props) => {
   const logoutButtonStyle = displayLogout
     ? styles.displayFlex
     : styles.displayNone;
   const backButtonStyle = displayBack ? styles.displayFlex : styles.displayNone;
-
   const navigation = useNavigation();
 
   function handlePress() {
@@ -48,7 +58,7 @@ function Header(props: any) {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   header: {

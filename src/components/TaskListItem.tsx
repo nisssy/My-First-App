@@ -9,24 +9,28 @@ import {
 import firebase from 'firebase';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
+import { Task } from '../types/task';
 
-function TaskListItem(props) {
-  const { data, dataSet, setDataSet } = props;
-  const [text, setText] = useState(data.title);
-  const [checked, setChecked] = useState(data.achievement);
+type Props = {
+  data: Task;
+  dataSet: Task[];
+  setDataSet: React.Dispatch<React.SetStateAction<Task[] | undefined>>;
+};
+
+const TaskListItem: React.FC<Props> = ({
+  data,
+  dataSet,
+  setDataSet,
+}: Props) => {
   const [id, setId] = useState('id');
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/task`).doc(id);
+  const [text, setText] = useState(data.title);
+  const [checked, setChecked] = useState(data.achievement);
 
-  useEffect(() => {
-    if (typeof data.id !== 'undefined') {
-      setId(data.id);
-    }
-  }, [data]);
-
-  function handlePress() {
+  const handlePress = () => {
     ref
       .update({
         title: text,
@@ -36,8 +40,15 @@ function TaskListItem(props) {
         const errorMessage = translateErrors(error.code);
         Alert.alert(errorMessage.error, errorMessage.description);
       });
-  }
-  function handlePressDelete() {
+  };
+
+  useEffect(() => {
+    if (typeof data.id !== 'undefined') {
+      setId(data.id);
+    }
+  }, [data]);
+
+  const handlePressDelete = () => {
     ref
       .delete()
       .then(() => {
@@ -46,11 +57,11 @@ function TaskListItem(props) {
         });
         setDataSet(newData);
       })
-      .catch((r) => {
-        console.log(r);
+      .catch((error) => {
+        const errorMessage = translateErrors(error.code);
+        Alert.alert(errorMessage.error, errorMessage.description);
       });
-    // }
-  }
+  };
 
   return (
     <View style={styles.taskListItem} key={data.id}>
@@ -80,7 +91,7 @@ function TaskListItem(props) {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   taskList: {},

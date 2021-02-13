@@ -1,14 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-function DateRepresentor(props) {
-  const { displayYear, displayMonth, displayDate } = props;
+type Props = {
+  displayYear: boolean;
+  displayMonth: boolean;
+  displayDate: boolean;
+};
+
+const DateRepresentor: React.FC<Props> = ({
+  displayYear,
+  displayMonth,
+  displayDate,
+}) => {
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
   const day = new Date().getDate();
-  const styleYear = displayYear ? {} : { display: 'none' };
-  const styleMonth = displayMonth ? {} : { display: 'none' };
-  const styleDate = displayDate ? {} : { display: 'none' };
+  const styleYear: {} = displayYear ? {} : { display: 'none' };
+  const styleMonth: {} = displayMonth ? {} : { display: 'none' };
+  const styleDate: {} = displayDate ? {} : { display: 'none' };
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
@@ -21,7 +30,7 @@ function DateRepresentor(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

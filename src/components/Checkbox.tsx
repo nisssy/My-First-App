@@ -2,19 +2,24 @@ import React, { useEffect } from 'react';
 import { CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
 import { Alert } from 'react-native';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
+import { Task } from '../types/task';
 
-function Checkbox(props: any) {
-  const { data, size, checked, setChecked } = props;
+type Props = {
+  data: Task;
+  size?: number;
+  checked: boolean;
+  setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Checkbox: React.FC<Props> = ({
+  data,
+  size,
+  checked,
+  setChecked,
+}: Props) => {
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
-
-  useEffect(() => {
-    setChecked(checked);
-  }, []);
-  useEffect(() => {
-    setChecked(data.achievement);
-  }, [data.achievement]);
 
   function handlePress() {
     const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
@@ -25,8 +30,9 @@ function Checkbox(props: any) {
           achievement: false,
         })
         .then(() => {})
-        .catch((r) => {
-          console.log(r);
+        .catch((error) => {
+          const errorMessage = translateErrors(error.code);
+          Alert.alert(errorMessage.error, errorMessage.description);
         });
     } else {
       setChecked(true);
@@ -42,6 +48,14 @@ function Checkbox(props: any) {
     }
   }
 
+  useEffect(() => {
+    setChecked(checked);
+  }, []);
+
+  useEffect(() => {
+    setChecked(data.achievement);
+  }, [data.achievement]);
+
   return (
     <CheckBox
       center
@@ -51,6 +65,10 @@ function Checkbox(props: any) {
       onPress={() => handlePress()}
     />
   );
-}
+};
+
+Checkbox.defaultProps = {
+  size: 25,
+};
 
 export default Checkbox;

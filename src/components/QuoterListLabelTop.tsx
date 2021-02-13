@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
 
-function QuoterLabelTop(props) {
-  const { quoter } = props;
+type Props = {
+  quoter: string;
+};
+
+const QuoterLabelTop: React.FC<Props> = ({ quoter }: Props) => {
   return (
     <View style={styles.quoterContainerTop}>
       <View style={styles.quoterContainerTopInner}>
@@ -11,7 +14,7 @@ function QuoterLabelTop(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   quoterContainerTop: {
