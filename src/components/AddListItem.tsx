@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, Alert } from 'react-native';
 import firebase from 'firebase';
 import Icon from './Icon';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
+import { Task } from '../types/task';
 
-function AddListItem(props) {
-  const { flag, dataSet, setDataSet } = props;
+type Props = {
+  flag: boolean;
+  dataSet: Task[] | undefined;
+  setDataSet: React.Dispatch<React.SetStateAction<Task[] | undefined>>;
+};
+
+const AddListItem: React.FC<Props> = ({ flag, dataSet, setDataSet }: Props) => {
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const ref = db.collection(`users/${currentUser?.uid}/task`);
   let array: any;
   array = typeof dataSet === 'undefined' ? (array = []) : (array = dataSet);
-  function handleState(array) {
-    const result = array.filter(
+
+  const handleState = (list: Task[]) => {
+    const result = list.filter(
       (element, index, self) =>
         self.findIndex((e) => e.id === element.id) === index
     );
     if (setDataSet) {
       setDataSet(result);
     }
-  }
+  };
 
   function handlePress() {
     const initialDate = flag
@@ -67,7 +74,7 @@ function AddListItem(props) {
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   addListItem: {

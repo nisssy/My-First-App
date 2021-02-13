@@ -3,13 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TargetScreen from '../screens/TargetScreen';
 import TaskScreen from '../screens/TaskScreen';
 import Icon from '../components/Icon';
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
 import MilestoneNavigator from './MilestoneNavigator';
 import ToDoNavigator from './ToDoNavigator';
 
 const Tab = createBottomTabNavigator();
 
-function MainTabNavigator() {
+const MainTabNavigator: React.FC = () => {
   return (
     <Tab.Navigator initialRouteName="Target">
       <Tab.Screen
@@ -21,7 +21,7 @@ function MainTabNavigator() {
         name="Target"
         component={TargetScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Icon name="Star" color={color} size={size} />
           ),
         }}
@@ -35,7 +35,7 @@ function MainTabNavigator() {
         name="Task"
         component={TaskScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Icon name="List" color={color} size={size} />
           ),
         }}
@@ -49,7 +49,7 @@ function MainTabNavigator() {
         name="Milestone"
         component={MilestoneNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Icon name="MileStone" color={color} size={size} />
           ),
         }}
@@ -63,13 +63,13 @@ function MainTabNavigator() {
         name="ToDo"
         component={ToDoNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Icon name="ToDo" color={color} size={size} />
           ),
         }}
       />
     </Tab.Navigator>
   );
-}
+};
 
 export default MainTabNavigator;

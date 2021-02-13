@@ -5,12 +5,16 @@ import { utcToZonedTime } from 'date-fns-tz';
 import { format } from 'date-fns';
 import Button from './Button';
 import TimeContext from '../contexts/TimeContext';
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
+import { TaskForMilestone } from '../types/task';
 
-function TimeContents(props) {
-  const { data } = props;
+type Props = {
+  data: TaskForMilestone;
+};
+
+const TimeContents: React.FC<Props> = ({ data }: Props) => {
   const navigation = useNavigation();
-  const now = useContext(TimeContext);
+  const now = useContext<any>(TimeContext);
   const [left, setLeft] = useState(0);
   const [due, setDue] = useState('');
   const [textColor, setTextColor] = useState({ color: '#646464' });
@@ -21,12 +25,12 @@ function TimeContents(props) {
     const seconds = 60;
     const mm = 1000;
     if (data.end == null) return;
-    const jstNow = utcToZonedTime(now, 'Asia/Tokyo');
+    const jstNow: any = utcToZonedTime(now, 'Asia/Tokyo');
 
     const jstEnd = utcToZonedTime(data.end, 'Asia/Tokyo').getTime();
-    const left = jstEnd - Math.floor(jstNow);
+    const leftTime = jstEnd - Math.floor(jstNow);
 
-    const leftDay = Math.ceil(left / mm / seconds / minutes / hour);
+    const leftDay = Math.ceil(leftTime / mm / seconds / minutes / hour);
     setLeft(leftDay);
     const endString = format(data.end, 'yyyy年MM月dd日');
     setDue(endString);
@@ -62,7 +66,7 @@ function TimeContents(props) {
       </Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   milestoneListItemTime: {

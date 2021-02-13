@@ -8,23 +8,34 @@ import {
   TextInput,
 } from 'react-native';
 import firebase from 'firebase';
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
 import Icon from './Icon';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
+import { TargetQuoter } from '../types/target';
 
-function QuoterLabelBottom(props) {
-  const { quoter, dataSetForQuoter, quoterAchievementRatio } = props;
-  const [grade, setGrade] = useState('');
-  const [text, setText] = useState('');
-  const [dataSet, setDataSet] = useState({ id: 'id' });
-  const [style, setStyle] = useState({});
+type Props = {
+  quoter: number;
+  dataSetForQuoter: TargetQuoter[];
+  quoterAchievementRatio: number;
+};
+
+const QuoterLabelBottom = ({
+  quoter,
+  dataSetForQuoter,
+  quoterAchievementRatio,
+}: Props) => {
+  const [grade, setGrade] = useState<string>('');
+  const [text, setText] = useState<string>('');
+  const [dataSet, setDataSet] = useState<any>({ id: 'id' });
+  const [style, setStyle] = useState<object>({});
+  const [id, setId] = useState<string>('id');
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
+  const ref = db
+    .collection(`users/${currentUser?.uid}/target/data/quoter`)
+    .doc(id);
 
   function handlePress() {
-    const ref = db
-      .collection(`users/${currentUser?.uid}/target/data/quoter`)
-      .doc(dataSet.id);
     ref
       .update({
         target: text,
@@ -35,6 +46,13 @@ function QuoterLabelBottom(props) {
         Alert.alert(errorMessage.error, errorMessage.description);
       });
   }
+
+  useEffect(() => {
+    if (typeof dataSet !== 'undefined') {
+      setId(dataSet.id);
+    }
+  }, [dataSet]);
+
   useEffect(() => {
     if (typeof dataSetForQuoter === 'undefined') return;
     const newList = dataSetForQuoter.filter((item) => item.quoter === quoter);
@@ -43,6 +61,7 @@ function QuoterLabelBottom(props) {
       setText(newList[0].target);
     }
   }, [dataSetForQuoter]);
+
   useEffect(() => {
     if (quoterAchievementRatio === 0) {
       setGrade('C');
@@ -92,7 +111,7 @@ function QuoterLabelBottom(props) {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   missionList: {

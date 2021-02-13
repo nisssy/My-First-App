@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import TimeContext from '../contexts/TimeContext';
+import { MemoParams } from '../types/memo';
 
-function Memo(props) {
-  const { data } = props;
+type Props = {
+  data: MemoParams | undefined;
+};
+
+const Memo: React.FC<Props> = ({ data }: Props) => {
   const [message, setMessage] = useState('まだメモが作られていません');
   const [memo, setMemo] = useState('');
-  const now = useContext(TimeContext);
+  const now: any = useContext(TimeContext);
 
   useEffect(() => {
     const hour = 24;
@@ -20,8 +24,9 @@ function Memo(props) {
       );
       const today = now.getTime() / mm / seconds / minutes / hour;
       const diff = Math.floor(today - updatedDay);
-      const message = diff === 0 ? `最終更新：今日` : `最終更新日：${diff}日前`;
-      setMessage(message);
+      const messageDay =
+        diff === 0 ? `最終更新：今日` : `最終更新日：${diff}日前`;
+      setMessage(messageDay);
       setMemo(data.memo);
     }
   }, [data]);
@@ -34,7 +39,7 @@ function Memo(props) {
       <Text style={styles.memo}>{memo}</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   memo: {

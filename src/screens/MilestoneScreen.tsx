@@ -2,24 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import firebase from 'firebase';
+import { StackNavigationProp } from '@react-navigation/stack';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import MilestoneList from '../components/MilestoneList';
 import ListLabel from '../components/ListLabel';
 import TimeContext from '../contexts/TimeContext';
+import { MilestoneTabParamList } from '../types/navigation';
+import { TaskForMilestone } from '../types/task';
 
-function Milestone(props) {
-  const [listThisMonth, setListThisMonth] = useState([]);
-  const [listNextMonth, setListNextMonth] = useState([]);
-  const [thisMonth, setThisMonth] = useState(1);
-  const [nextMonth, setNextMonth] = useState(1);
-  const { navigation } = props;
-  const [list, setList] = useState();
-  const [now, setNow] = useState(new Date());
+type Props = {
+  navigation: StackNavigationProp<MilestoneTabParamList, 'Milestone'>;
+};
+
+const MilestoneScreen: React.FC<Props> = ({ navigation }: Props) => {
+  const [listThisMonth, setListThisMonth] = useState<TaskForMilestone[]>([]);
+  const [listNextMonth, setListNextMonth] = useState<TaskForMilestone[]>([]);
+  const [list, setList] = useState<TaskForMilestone[]>();
+  const [thisMonth, setThisMonth] = useState<number>(1);
+  const [nextMonth, setNextMonth] = useState<number>(1);
+  const [now, setNow] = useState<Date>(new Date());
   const isFocused = useIsFocused();
 
-  function arrayFilter(list: []) {
-    const filteredList = list.filter(
+  const arrayFilter = (array: TaskForMilestone[]) => {
+    const filteredList = array.filter(
       (element, index, self) =>
         self.findIndex((e) => e.id === element.id) === index
     );
@@ -36,12 +42,13 @@ function Milestone(props) {
     );
     setListThisMonth(arrayThisMonth);
     setListNextMonth(arrayNextMonth);
-  }
+  };
   useEffect(() => {
     if (typeof list !== 'undefined') {
       arrayFilter(list);
     }
   }, [list]);
+
   useEffect(() => {
     const thisMonthRaw = new Date().getMonth() + 1;
     const nextMonthRaw = thisMonthRaw + 1;
@@ -94,14 +101,14 @@ function Milestone(props) {
           title="マイルストーン"
           fontSize={26}
         />
-        <DateRepresentor displayYear displayMonth />
+        <DateRepresentor displayYear displayMonth displayDate={false} />
         <ScrollView>
-          <ListLabel />
+          <ListLabel label="" />
           <View style={styles.textContainer}>
             <Text style={styles.text}>Taskタブにリストを追加して</Text>
             <Text style={styles.text}>マイルストーンを表示しよう！</Text>
           </View>
-          <ListLabel />
+          <ListLabel label=" " />
         </ScrollView>
       </View>
     );
@@ -116,7 +123,7 @@ function Milestone(props) {
           title="マイルストーン"
           fontSize={26}
         />
-        <DateRepresentor displayYear displayMonth />
+        <DateRepresentor displayYear displayMonth displayDate={false} />
         <ScrollView>
           <ListLabel label="今月" />
           <MilestoneList navigation={navigation} list={listThisMonth} />
@@ -126,7 +133,7 @@ function Milestone(props) {
       </View>
     </TimeContext.Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -147,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Milestone;
+export default MilestoneScreen;

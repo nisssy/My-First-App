@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
-function Loading(props) {
-  const { isLoading } = props;
+type Props = {
+  isLoading: boolean;
+};
+
+const Loading = ({ isLoading }: Props) => {
   if (!isLoading) {
     return null;
   }
@@ -13,7 +16,7 @@ function Loading(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

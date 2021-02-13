@@ -1,29 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CheckBox } from 'react-native-elements';
 import firebase from 'firebase';
 import { Alert } from 'react-native';
 import QuoterAchievementRatioContext from '../contexts/QuoterAchievementRatioContext';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
+import { TargetMonth } from '../types/target';
 
-function CheckboxForTarget(props: any) {
-  const { data, size, checked, setChecked } = props;
+type Props = {
+  data: TargetMonth | undefined;
+  size?: number;
+  checked: boolean | undefined;
+  setChecked: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+};
+
+const CheckboxForTarget: React.FC<Props> = ({
+  data,
+  size,
+  checked = false,
+  setChecked,
+}: Props) => {
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
   const value = useContext(QuoterAchievementRatioContext);
-  const { quoterAchievementRatio, setQuoterAchievementRatio } = value;
-
-  useEffect(() => {
-    setChecked(checked);
-    if (checked) {
-      const count = quoterAchievementRatio + 1;
-      setQuoterAchievementRatio(count);
-    }
-  }, []);
+  const { quoterAchievementRatio, setQuoterAchievementRatio }: any = value;
 
   function handlePress() {
     const ref = db
       .collection(`users/${currentUser?.uid}/target/data/month`)
-      .doc(data.id);
+      .doc(data?.id);
     if (checked) {
       setChecked(false);
       const count = quoterAchievementRatio - 1;
@@ -34,7 +38,8 @@ function CheckboxForTarget(props: any) {
         })
         .then(() => {})
         .catch((error) => {
-          console.log(error);
+          const errorMessage = translateErrors(error.code);
+          Alert.alert(errorMessage.error, errorMessage.description);
         });
     } else {
       setChecked(true);
@@ -52,6 +57,14 @@ function CheckboxForTarget(props: any) {
     }
   }
 
+  useEffect(() => {
+    setChecked(checked);
+    if (checked) {
+      const count = quoterAchievementRatio + 1;
+      setQuoterAchievementRatio(count);
+    }
+  }, []);
+
   return (
     <CheckBox
       center
@@ -61,6 +74,10 @@ function CheckboxForTarget(props: any) {
       onPress={() => handlePress()}
     />
   );
-}
+};
+
+CheckboxForTarget.defaultProps = {
+  size: 30,
+};
 
 export default CheckboxForTarget;

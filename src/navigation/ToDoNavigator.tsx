@@ -6,7 +6,7 @@ import MilestoneEditorScreen from '../screens/MilestoneEditorScreen';
 
 const Stack = createStackNavigator();
 
-function ToDoNavigator() {
+const ToDoNavigator: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName="ToDo">
       <Stack.Screen
@@ -38,6 +38,6 @@ function ToDoNavigator() {
       />
     </Stack.Navigator>
   );
-}
+};
 
 export default ToDoNavigator;

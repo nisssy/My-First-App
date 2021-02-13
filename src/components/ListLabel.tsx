@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { variables } from '../lib/variables/stylingVariables';
+import { variables } from '../utils/variables/stylingVariables';
 
-function ListLabel(props) {
-  const { label, size = 24 } = props;
+type Props = {
+  label: string;
+  size?: number;
+};
+
+const ListLabel: React.FC<Props> = ({ label, size }: Props) => {
   return (
     <View style={styles.monthLabelContainer}>
       <View style={styles.monthLabelInner}>
@@ -12,7 +16,11 @@ function ListLabel(props) {
       </View>
     </View>
   );
-}
+};
+
+ListLabel.defaultProps = {
+  size: 24,
+};
 
 const styles = StyleSheet.create({
   monthLabelContainer: {

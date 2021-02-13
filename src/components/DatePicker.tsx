@@ -2,18 +2,29 @@ import React, { useState } from 'react';
 import { View, Button, Platform, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-function DatePicker(props) {
-  const { start, setStart, end, setEnd } = props;
+type Props = {
+  start: Date;
+  setStart: React.Dispatch<React.SetStateAction<Date>>;
+  end: Date;
+  setEnd: React.Dispatch<React.SetStateAction<Date>>;
+};
+
+const DatePicker: React.FC<Props> = ({
+  start,
+  setStart,
+  end,
+  setEnd,
+}: Props) => {
   const [showStart, setShowStart] = useState(false);
   const [showEnd, setShowEnd] = useState(false);
 
-  const onChangeStart = (event, selectedDate) => {
+  const onChangeStart = (event: any, selectedDate: Date | undefined): void => {
     const currentDate = selectedDate || start;
     setShowStart(Platform.OS === 'ios');
     setStart(currentDate);
   };
 
-  const onChangeEnd = (event, selectedDate) => {
+  const onChangeEnd = (event: any, selectedDate: Date | undefined): void => {
     const currentDate = selectedDate || end;
     setShowEnd(Platform.OS === 'ios');
     setEnd(currentDate);
@@ -57,7 +68,7 @@ function DatePicker(props) {
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {

@@ -3,18 +3,43 @@ import { View, Text, StyleSheet, Alert } from 'react-native';
 import { utcToZonedTime } from 'date-fns-tz';
 import { format } from 'date-fns';
 import firebase from 'firebase';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import DatePicker from '../components/DatePicker';
 import Header from '../components/Header';
 import Button from '../components/Button';
+import { MilestoneTabParamList, RootStackParamList } from '../types/navigation';
 
-function MilestoneEditor(props) {
-  const { navigation, route } = props;
+type Props = {
+  navigation: StackNavigationProp<RootStackParamList, 'LogIn'>;
+  route: RouteProp<MilestoneTabParamList, 'Milestone'>;
+};
+
+const MilestoneEditor: React.FC<Props> = ({ navigation, route }: Props) => {
   const { data } = route.params;
-  const [now, setNow] = useState(new Date());
-  const [start, setStart] = useState(new Date());
-  const [end, setEnd] = useState(new Date());
-  const [due, setDue] = useState('');
-  const [left, setLeft] = useState(0);
+  const [now, setNow] = useState<Date>(new Date());
+  const [start, setStart] = useState<Date>(new Date());
+  const [end, setEnd] = useState<Date>(new Date());
+  const [due, setDue] = useState<string>('');
+  const [left, setLeft] = useState<number>(0);
+
+  const handlePress: () => void = () => {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
+    ref
+      .update({
+        start,
+        end,
+        changed: true,
+      })
+      .then(() => {
+        navigation.reset({ index: 0, routes: [{ name: 'Milestone' }] });
+      })
+      .catch((error) => {
+        Alert.alert(error);
+      });
+  };
 
   useEffect(() => {
     const hour = 24;
@@ -31,23 +56,6 @@ function MilestoneEditor(props) {
     const endString = format(end, 'yyyy年MM月dd日');
     setDue(endString);
   }, [end]);
-  function handlePress() {
-    const { currentUser } = firebase.auth();
-    const db = firebase.firestore();
-    const ref = db.collection(`users/${currentUser?.uid}/task`).doc(data.id);
-    ref
-      .update({
-        start,
-        end,
-        changed: true,
-      })
-      .then(() => {
-        navigation.reset({ index: 0, routes: [{ name: 'Milestone' }] });
-      })
-      .catch((error) => {
-        Alert.alert(error);
-      });
-  }
 
   return (
     <View style={styles.container}>
@@ -56,7 +64,6 @@ function MilestoneEditor(props) {
         displayBack
         title="マイルストーン"
         fontSize={26}
-        navigation={navigation}
       />
       <View style={styles.itemsContainer}>
         <DatePicker
@@ -85,7 +92,7 @@ function MilestoneEditor(props) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

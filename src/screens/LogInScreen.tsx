@@ -8,31 +8,22 @@ import {
   Alert,
 } from 'react-native';
 import firebase from 'firebase';
-import { shape } from 'prop-types';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Button from '../components/Button';
-import { translateErrors } from '../lib/functions';
+import { translateErrors } from '../utils/functions';
 import Loading from '../components/Loading';
+import { RootStackParamList } from '../types/navigation';
 
-function LogInScreen(props) {
-  const { navigation } = props;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+type Props = {
+  navigation: StackNavigationProp<RootStackParamList>;
+};
 
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
-      } else {
-        setIsLoading(false);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+const LogInScreen: React.FC<Props> = ({ navigation }: Props) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  function handlePress() {
+  const handlePress: () => void = () => {
     setIsLoading(true);
     firebase
       .auth()
@@ -47,7 +38,21 @@ function LogInScreen(props) {
       .then(() => {
         setIsLoading(false);
       });
-  }
+  };
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+      } else {
+        setIsLoading(false);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <Loading isLoading={isLoading} />
@@ -91,10 +96,6 @@ function LogInScreen(props) {
       </View>
     </View>
   );
-}
-
-LogInScreen.propTypes = {
-  navigation: shape().isRequired,
 };
 
 const styles = StyleSheet.create({

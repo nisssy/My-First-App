@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import firebase from 'firebase';
-import { format } from 'date-fns';
 import { useIsFocused } from '@react-navigation/native';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import ListLabel from '../components/ListLabel';
 import TaskList from '../components/TaskList';
+import { Task } from '../types/task';
 
-function Task() {
-  const [listThisMonth, setListThisMonth] = useState();
-  const [listNextMonth, setListNextMonth] = useState();
-  const [thisMonth, setThisMonth] = useState(1);
-  const [nextMonth, setNextMonth] = useState(1);
-  const [isReady, setIsReady] = useState(false);
-  const [list, setList] = useState();
+const TaskScreen: React.FC = () => {
+  const [listThisMonth, setListThisMonth] = useState<Task[]>();
+  const [listNextMonth, setListNextMonth] = useState<Task[]>();
+  const [list, setList] = useState<Task[]>();
+  const [thisMonth, setThisMonth] = useState<number>(0);
+  const [nextMonth, setNextMonth] = useState<number>(0);
+  const taskScreenIsFocused = useIsFocused();
   const flagThisMonth = true;
   const flagNextMonth = false;
-  const taskScrennIsFocused = useIsFocused();
+
   useEffect(() => {
     if (typeof list !== 'undefined') {
       arrayFilter(list);
     }
   }, [list]);
-  function arrayFilter(list: []) {
-    const filteredList = list.filter(
+  const arrayFilter = (array: Task[]) => {
+    const filteredList = array.filter(
       (element, index, self) =>
         self.findIndex((e) => e.id === element.id) === index
     );
@@ -41,7 +41,7 @@ function Task() {
     );
     setListThisMonth(arrayThisMonth);
     setListNextMonth(arrayNextMonth);
-  }
+  };
 
   useEffect(() => {
     const thisMonthRaw = new Date().getMonth() + 1;
@@ -64,6 +64,7 @@ function Task() {
           start: new Date(doc.data().start.seconds * (mm * fixError)),
           end: new Date(doc.data().start.seconds * (mm * fixError)),
           achievement: doc.data().achievement,
+          createdAt: doc.data().createdAt,
         });
       });
 
@@ -72,7 +73,7 @@ function Task() {
       }
     });
     return unsubscribe;
-  }, [taskScrennIsFocused]);
+  }, [taskScreenIsFocused]);
 
   return (
     <View style={styles.container}>
@@ -82,7 +83,7 @@ function Task() {
         title="やること"
         fontSize={28}
       />
-      <DateRepresentor displayYear displayMonth />
+      <DateRepresentor displayYear displayMonth displayDate={false} />
       <ScrollView>
         <ListLabel label="今月" />
         <TaskList list={listThisMonth} flag={flagThisMonth} />
@@ -91,7 +92,7 @@ function Task() {
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -100,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Task;
+export default TaskScreen;
