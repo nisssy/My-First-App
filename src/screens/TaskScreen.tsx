@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import firebase from 'firebase';
 import { useIsFocused } from '@react-navigation/native';
+import InputScrollView from 'react-native-input-scroll-view';
 import DateRepresentor from '../components/DateComponent';
 import Header from '../components/Header';
 import ListLabel from '../components/ListLabel';
@@ -84,12 +85,13 @@ const TaskScreen: React.FC = () => {
         fontSize={28}
       />
       <DateRepresentor displayYear displayMonth displayDate={false} />
-      <ScrollView>
+      <InputScrollView keyboardOffset={250}>
         <ListLabel label="今月" />
         <TaskList list={listThisMonth} flag={flagThisMonth} />
         <ListLabel label="来月" />
         <TaskList list={listNextMonth} flag={flagNextMonth} />
-      </ScrollView>
+        <View style={styles.footer} />
+      </InputScrollView>
     </View>
   );
 };
@@ -98,6 +100,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  footer: {
+    height: 80,
   },
 });
 

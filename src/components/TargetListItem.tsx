@@ -25,7 +25,6 @@ function TargetListItem({ monthOrigin, dataSetForMonth }: Props) {
   const [checked, setChecked] = useState<boolean>();
   const { currentUser } = firebase.auth();
   const db = firebase.firestore();
-
   const ref = db
     .collection(`users/${currentUser?.uid}/target/data/month`)
     .doc(id);

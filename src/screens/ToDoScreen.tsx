@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 64,
     marginLeft: 40,
+    marginBottom: 48,
   },
   ToDoListItem: {
     fontSize: 16,

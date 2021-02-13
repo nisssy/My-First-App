@@ -129,6 +129,7 @@ const MilestoneScreen: React.FC<Props> = ({ navigation }: Props) => {
           <MilestoneList navigation={navigation} list={listThisMonth} />
           <ListLabel label="来月" />
           <MilestoneList navigation={navigation} list={listNextMonth} />
+          <View style={styles.footer} />
         </ScrollView>
       </View>
     </TimeContext.Provider>
@@ -151,6 +152,9 @@ const styles = StyleSheet.create({
     fontSize: 19,
     lineHeight: 30,
     color: '#646464',
+  },
+  footer: {
+    height: 48,
   },
 });
 
