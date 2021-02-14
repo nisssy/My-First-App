@@ -126,7 +126,7 @@ const TargetList: React.FC = () => {
   }
 
   return (
-    <InputScrollView>
+    <InputScrollView keyboardOffset={250}>
       <View style={styles.container}>
         <TargetListQuoter
           dataSetForMonth={dataSetForMonth}
